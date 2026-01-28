@@ -1,21 +1,19 @@
 # Sample Attack Descriptions
-# 2-3 basic, widely-known examples to illustrate the taxonomy format.
-# These are public knowledge — no novel payloads.
+# 3 representative examples to illustrate the taxonomy format.
+# These are public knowledge — no proprietary payloads.
 
 ---
 
 - id: PI-001
-  name: Direct Instruction Override
+  name: Basic Instruction Override
   category: prompt_injection
-  severity: critical
+  severity: high
   owasp: LLM01
-  atlas: AML.T0051
+  atlas: AML.T0051.000
   description: >
-    The most basic prompt injection technique. The attacker provides input
-    that directly instructs the model to ignore its system prompt and follow
-    new instructions instead. This exploits the model's tendency to treat
-    all text in its context window as potential instructions, regardless
-    of the source.
+    The most fundamental prompt injection attack. Instructs the model to ignore
+    previous instructions and execute new commands. While simple, it remains
+    effective against poorly defended systems and serves as a baseline test.
   example_concept: >
     User input contains phrases like "ignore all previous instructions"
     or "your new instructions are..." that attempt to override the
@@ -32,18 +30,15 @@
       title: "Prompt injection attacks against GPT-3 (Simon Willison)"
 
 - id: JB-001
-  name: DAN (Do Anything Now)
-  category: jailbreaks
+  name: DAN v1 - Original Do Anything Now
+  category: jailbreak
   severity: high
-  owasp: LLM09
-  atlas: AML.T0054
+  owasp: LLM01
+  atlas: AML.T0051.000
   description: >
-    A roleplay-based jailbreak where the attacker instructs the model to
-    adopt an alternate persona ("DAN") that is not bound by safety
-    guidelines. The model is told to respond as both itself and as DAN,
-    with DAN having no content restrictions. Multiple versions (DAN 1.0
-    through 12.0+) have been documented, with each iteration attempting
-    to bypass patches to previous versions.
+    The original DAN (Do Anything Now) jailbreak that spawned an entire
+    category of attacks. Attempts to create an alternate persona that
+    operates without restrictions.
   example_concept: >
     The attacker asks the model to roleplay as an AI without safety
     constraints. The prompt typically includes a detailed persona
@@ -59,18 +54,16 @@
       title: "Do Anything Now: Characterizing and Evaluating In-The-Wild Jailbreak Prompts on Large Language Models"
 
 - id: VI-001
-  name: Typographic Injection
-  category: vision_multimodal
+  name: FigStep Typographic Injection
+  category: vision_injection
   severity: high
-  owasp: LLM05
-  atlas: AML.T0053
+  owasp: LLM01
+  atlas: AML.T0051.001
   description: >
     An attack against vision-language models where adversarial text is
     embedded directly into images. The model reads the text in the image
     and may follow instructions contained within it, bypassing text-only
-    input filters. This is particularly effective because image content
-    is often treated as trusted data that bypasses text-based safety
-    filters.
+    input filters.
   example_concept: >
     An image contains rendered text with instructions for the model.
     When the model processes the image, it reads and potentially follows
