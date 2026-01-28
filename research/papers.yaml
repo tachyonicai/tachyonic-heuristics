@@ -1,0 +1,119 @@
+# Academic and Industry Research References
+# Papers, reports, and publications relevant to this taxonomy.
+
+---
+
+prompt_injection:
+  - title: "Not what you've signed up for: Compromising Real-World LLM-Integrated Applications with Indirect Prompt Injection"
+    authors: Greshake et al.
+    year: 2023
+    url: https://arxiv.org/abs/2302.12173
+    relevance: PI-007, PI-008, PI-018
+
+  - title: "Ignore This Title and HackAPrompt: Exposing Systemic Weaknesses of LLMs through a Global Scale Prompt Hacking Competition"
+    authors: Schulhoff et al.
+    year: 2023
+    url: https://arxiv.org/abs/2311.16119
+    relevance: PI-001, PI-003, PI-009
+
+  - title: "Prompt Injection attack against LLM-integrated Applications"
+    authors: Liu et al.
+    year: 2023
+    url: https://arxiv.org/abs/2306.05499
+    relevance: PI-001, PI-007, PI-020
+
+jailbreaks:
+  - title: "Jailbroken: How Does LLM Safety Training Fail?"
+    authors: Wei et al.
+    year: 2023
+    url: https://arxiv.org/abs/2307.02483
+    relevance: JB-001, JB-002, JB-003, JB-009
+
+  - title: "Universal and Transferable Adversarial Attacks on Aligned Language Models"
+    authors: Zou et al.
+    year: 2023
+    url: https://arxiv.org/abs/2307.15043
+    relevance: JB-016
+
+  - title: "Do Anything Now: Characterizing and Evaluating In-The-Wild Jailbreak Prompts on Large Language Models"
+    authors: Shen et al.
+    year: 2023
+    url: https://arxiv.org/abs/2308.03825
+    relevance: JB-001, JB-002, JB-008
+
+  - title: "Scalable and Transferable Black-Box Jailbreaks for Language Models via Persona Modulation"
+    authors: Shah et al.
+    year: 2023
+    url: https://arxiv.org/abs/2311.03348
+    relevance: JB-002, JB-008
+
+  - title: "Great, Now Write an Article About That: The Crescendo Multi-Turn LLM Jailbreak Attack"
+    authors: Russinovich et al.
+    year: 2024
+    url: https://arxiv.org/abs/2404.01833
+    relevance: JB-011, MT-002
+
+vision_multimodal:
+  - title: "Visual Adversarial Examples Jailbreak Aligned Large Language Models"
+    authors: Qi et al.
+    year: 2023
+    url: https://arxiv.org/abs/2306.13213
+    relevance: VI-005, VI-006
+
+  - title: "FigStep: Jailbreaking Large Vision-language Models via Typographic Visual Prompts"
+    authors: Gong et al.
+    year: 2023
+    url: https://arxiv.org/abs/2311.05608
+    relevance: VI-001, VI-007
+
+sensitive_disclosure:
+  - title: "Extracting Training Data from Large Language Models"
+    authors: Carlini et al.
+    year: 2021
+    url: https://arxiv.org/abs/2012.07805
+    relevance: SID-001, SID-002
+
+  - title: "Scalable Extraction of Training Data from (Production) Language Models"
+    authors: Nasr et al.
+    year: 2023
+    url: https://arxiv.org/abs/2311.17035
+    relevance: SID-001, SID-003
+
+excessive_agency:
+  - title: "Identifying and Mitigating Vulnerabilities in LLM-Integrated Applications"
+    authors: Wu et al.
+    year: 2024
+    url: https://arxiv.org/abs/2311.16153
+    relevance: EA-001, EA-002, EA-006
+
+supply_chain:
+  - title: "Poisoning Language Models During Instruction Tuning"
+    authors: Wan et al.
+    year: 2023
+    url: https://arxiv.org/abs/2305.00944
+    relevance: SC-001, SC-003
+
+  - title: "BadGPT: Exploring Security Vulnerabilities of ChatGPT via Backdoor Attacks to InstructGPT"
+    authors: Shi et al.
+    year: 2023
+    url: https://arxiv.org/abs/2304.12298
+    relevance: SC-001, SC-002
+
+frameworks:
+  - title: "OWASP Top 10 for LLM Applications (2025)"
+    authors: OWASP Foundation
+    year: 2025
+    url: https://genai.owasp.org/llm-top-10/
+    relevance: All categories
+
+  - title: "MITRE ATLAS (Adversarial Threat Landscape for AI Systems)"
+    authors: MITRE Corporation
+    year: 2024
+    url: https://atlas.mitre.org/
+    relevance: All categories
+
+  - title: "NIST AI Risk Management Framework (AI RMF 1.0)"
+    authors: National Institute of Standards and Technology
+    year: 2023
+    url: https://www.nist.gov/artificial-intelligence/executive-order-safe-secure-and-trustworthy-artificial-intelligence
+    relevance: All categories

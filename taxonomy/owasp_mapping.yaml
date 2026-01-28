@@ -1,0 +1,199 @@
+# OWASP LLM Top 10 (2025) → Attack ID Mapping
+# Maps each OWASP category to the attacks in this taxonomy
+
+---
+
+LLM01_prompt_injection:
+  name: "Prompt Injection"
+  description: >
+    Crafted inputs that manipulate a large language model to execute
+    unintended actions. Includes both direct injection (user input) and
+    indirect injection (external data sources).
+  attacks:
+    - PI-001  # Direct Instruction Override
+    - PI-002  # Context Window Manipulation
+    - PI-003  # Delimiter Exploitation
+    - PI-004  # Base64 Encoding Bypass
+    - PI-005  # ROT13 Encoding Bypass
+    - PI-006  # Unicode Smuggling
+    - PI-007  # Indirect Injection via Retrieved Content
+    - PI-008  # Indirect Injection via Document
+    - PI-009  # Instruction Hierarchy Confusion
+    - PI-010  # Few-Shot Injection
+    - PI-011  # Payload Splitting
+    - PI-012  # Token Smuggling
+    - PI-013  # Language Switching
+    - PI-014  # Markdown/HTML Injection
+    - PI-015  # JSON/XML Injection
+    - PI-016  # Recursive Instruction Injection
+    - PI-017  # Prompt Leaking via Injection
+    - PI-018  # Virtual Prompt Injection
+    - PI-019  # Obfuscated Instruction Injection
+    - PI-020  # Cross-Plugin Injection
+    - MT-001  # Context Window Poisoning
+    - MT-002  # Gradual Escalation
+    - MT-003  # Memory Manipulation
+    - MT-004  # Session Confusion
+    - MT-005  # Conversational Anchoring
+    - MT-006  # Trust Calibration Attack
+    - MT-007  # Context Reset Exploitation
+    - MT-008  # Multi-Turn Payload Assembly
+  total: 28
+
+LLM02_insecure_output:
+  name: "Insecure Output Handling"
+  description: >
+    Insufficient validation, sanitization, and handling of LLM outputs
+    before passing them downstream to other components and systems.
+  attacks:
+    - VE-001  # Embedding Injection
+    - VE-002  # Nearest-Neighbor Poisoning
+    - VE-003  # Retrieval Manipulation
+    - VE-004  # Context Window Overflow
+    - VE-005  # Metadata Injection
+    - VE-006  # Cross-Collection Contamination
+    - VE-007  # Embedding Inversion
+    - VE-008  # Query Manipulation
+  total: 8
+
+LLM03_supply_chain:
+  name: "Supply Chain Vulnerabilities"
+  description: >
+    Vulnerabilities in the AI supply chain including training data,
+    pre-trained models, plugins, and deployment platforms.
+  attacks:
+    - SC-001  # Poisoned Training Data
+    - SC-002  # Compromised Model Weights
+    - SC-003  # Malicious Fine-Tuning Dataset
+    - SC-004  # Backdoored Plugin/Tool
+    - SC-005  # Dependency Vulnerability
+    - SC-006  # Model Serialization Attack
+    - SC-007  # Prompt Template Injection
+    - SC-008  # Embedding Model Poisoning
+  total: 8
+
+LLM05_improper_output:
+  name: "Improper Output Handling"
+  description: >
+    LLM-generated output used in downstream systems without proper
+    sanitization, enabling injection attacks through the AI layer.
+  attacks:
+    - IOH-001  # XSS via AI Output
+    - IOH-002  # SQL Injection via AI Output
+    - IOH-003  # Command Injection via AI Output
+    - IOH-004  # Path Traversal via AI Output
+    - IOH-005  # SSRF via AI Output
+    - IOH-006  # Serialization Attack via AI Output
+    - IOH-007  # Log Injection via AI Output
+    - IOH-008  # Email/Notification Injection
+    - VI-001   # Typographic Injection
+    - VI-002   # Steganographic Embedding
+    - VI-003   # Cross-Modal Obfuscation
+    - VI-004   # Flowchart Attack
+    - VI-005   # Adversarial Perturbation
+    - VI-006   # Virtual Scenario Hypnosis (Visual)
+    - VI-007   # FigStep Typography
+    - VI-008   # Document Injection (Visual)
+    - VI-009   # QR Code Injection
+    - VI-010   # Multimodal Context Confusion
+    - VI-011   # Audio Injection
+    - VI-012   # Video Frame Injection
+  total: 20
+
+LLM06_sensitive_disclosure:
+  name: "Sensitive Information Disclosure"
+  description: >
+    LLM may reveal sensitive information, proprietary algorithms,
+    or confidential data through its responses.
+  attacks:
+    - SID-001  # Training Data Extraction
+    - SID-002  # Membership Inference
+    - SID-003  # PII Extraction
+    - SID-004  # Credential Harvesting
+    - SID-005  # Business Logic Extraction
+    - SID-006  # Model Architecture Probing
+    - SID-007  # Context Exfiltration
+    - SID-008  # RAG Source Extraction
+    - SID-009  # Model Inversion
+    - SID-010  # Differential Privacy Bypass
+  total: 10
+
+LLM07_system_prompt_leakage:
+  name: "System Prompt Leakage"
+  description: >
+    Extraction of the system prompt or confidential instructions
+    that define the LLM application's behavior.
+  attacks:
+    - SPL-001  # Direct Extraction Request
+    - SPL-002  # Reflection Attack
+    - SPL-003  # Completion Attack
+    - SPL-004  # Behavioral Inference
+    - SPL-005  # Translation-Based Extraction
+    - SPL-006  # Role-Play Extraction
+    - SPL-007  # Debug Mode Extraction
+    - SPL-008  # Side-Channel Behavioral Leak
+    - SPL-009  # Encoding-Based Extraction
+    - SPL-010  # Gradual Extraction
+    - SPL-011  # Negative Extraction
+    - SPL-012  # Context Window Dump
+  total: 12
+
+LLM08_excessive_agency:
+  name: "Excessive Agency"
+  description: >
+    LLM-based systems granted too much capability, autonomy, or
+    permission, enabling unintended actions through tool/function abuse.
+  attacks:
+    - EA-001  # Parameter Injection
+    - EA-002  # Tool Chaining Escalation
+    - EA-003  # Scope Escape
+    - EA-004  # SSRF via Agent
+    - EA-005  # File System Traversal
+    - EA-006  # Confused Deputy
+    - EA-007  # Excessive Permission Exploitation
+    - EA-008  # Unintended Action Execution
+    - EA-009  # API Key Extraction via Tools
+    - EA-010  # Cross-Tenant Data Access
+    - EA-011  # Recursive Tool Invocation
+    - EA-012  # Shadow Workflow Creation
+  total: 12
+
+LLM09_misinformation:
+  name: "Misinformation"
+  description: >
+    LLM generates inaccurate or misleading information, including through
+    jailbreaks that bypass safety alignment and content restrictions.
+  attacks:
+    - JB-001  # DAN (Do Anything Now)
+    - JB-002  # Persona Hijacking
+    - JB-003  # Hypothetical Framing
+    - JB-004  # Token Manipulation
+    - JB-005  # Multi-Language Jailbreak
+    - JB-006  # Emotional Manipulation
+    - JB-007  # Authority Impersonation
+    - JB-008  # Nested Roleplay
+    - JB-009  # Opposite Day / Inversion
+    - JB-010  # Cognitive Hacking
+    - JB-011  # Crescendo Attack
+    - JB-012  # Code Interpreter Jailbreak
+    - JB-013  # System Prompt Overwrite
+    - JB-014  # Narrative Embedding
+    - JB-015  # Technical Reframing
+    - JB-016  # Suffix Attack
+    - JB-017  # Prompt Injection Chain
+    - JB-018  # Virtual Scenario Hypnosis
+    - JB-019  # Reward Hacking
+    - JB-020  # Distraction Jailbreak
+    - JB-021  # Fine-Tuning Exploitation
+    - JB-022  # API-Level Bypass
+  total: 22
+
+LLM10_unbounded_consumption:
+  name: "Unbounded Consumption"
+  description: >
+    LLM applications allow excessive resource consumption, leading
+    to denial of service or economic harm.
+  attacks:
+    - UC-001  # Context Window Exhaustion
+    - UC-002  # Recursive Generation Attack
+  total: 2

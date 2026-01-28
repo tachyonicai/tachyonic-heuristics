@@ -1,0 +1,231 @@
+# Remediation Guidance by OWASP LLM Top 10 Category
+# Defensive strategies for each category of attack.
+
+---
+
+LLM01_prompt_injection:
+  name: "Prompt Injection Defenses"
+  strategies:
+    - name: Input validation and sanitization
+      description: >
+        Filter, escape, or reject user inputs that contain instruction-like
+        patterns, delimiters, encoding schemes, or role declarations before
+        they reach the model.
+      code_example: remediation/code_examples/input_validation.py
+
+    - name: Instruction hierarchy enforcement
+      description: >
+        Use model-level features (system prompts, instruction priority) to
+        establish clear boundaries between developer instructions and user
+        input. Mark user content explicitly as untrusted.
+
+    - name: Output validation
+      description: >
+        Validate model outputs before passing to downstream systems. Check
+        for unexpected instructions, code, or content that could indicate
+        a successful injection.
+      code_example: remediation/code_examples/output_sanitization.py
+
+    - name: Retrieval content sandboxing
+      description: >
+        Treat all retrieved content (RAG, web search, document ingestion)
+        as untrusted input. Sanitize before inclusion in prompts. Use
+        separate context windows where possible.
+
+    - name: Rate limiting and anomaly detection
+      description: >
+        Monitor for patterns that indicate injection attempts — unusual
+        input lengths, encoding patterns, repeated boundary-testing queries.
+
+LLM02_insecure_output:
+  name: "Insecure Output Handling Defenses"
+  strategies:
+    - name: Embedding input sanitization
+      description: >
+        Sanitize text before generating embeddings. Strip control characters,
+        normalize encoding, and validate metadata fields.
+
+    - name: Vector database access controls
+      description: >
+        Implement collection-level permissions, tenant isolation, and
+        query-time filtering to prevent cross-collection contamination.
+
+    - name: Retrieval result validation
+      description: >
+        Validate retrieved documents against expected schemas before
+        including in context. Check similarity scores and flag outliers.
+
+LLM03_supply_chain:
+  name: "Supply Chain Defenses"
+  strategies:
+    - name: Model provenance verification
+      description: >
+        Verify model checksums, signatures, and source before deployment.
+        Use trusted model registries with integrity verification.
+
+    - name: Training data auditing
+      description: >
+        Audit training and fine-tuning datasets for injected content,
+        backdoors, or poisoned examples before use.
+
+    - name: Dependency scanning
+      description: >
+        Scan all dependencies (Python packages, npm modules, plugins)
+        for known vulnerabilities. Pin versions and verify integrity.
+
+    - name: Plugin/tool sandboxing
+      description: >
+        Run third-party plugins and tools in sandboxed environments with
+        minimal permissions. Validate all inputs and outputs.
+
+LLM05_improper_output:
+  name: "Improper Output Handling Defenses"
+  strategies:
+    - name: Output encoding and escaping
+      description: >
+        Apply context-appropriate encoding to all model outputs before
+        rendering — HTML encoding for web, parameterized queries for SQL,
+        shell escaping for commands.
+      code_example: remediation/code_examples/output_sanitization.py
+
+    - name: Content Security Policy
+      description: >
+        Implement CSP headers and other browser-level protections to
+        mitigate XSS from AI-generated content.
+
+    - name: Allowlisting output formats
+      description: >
+        Restrict model outputs to expected formats. If the model should
+        return JSON, validate the schema. If text, strip HTML/scripts.
+
+    - name: Multimodal input validation
+      description: >
+        For vision models, validate image inputs — check for embedded
+        text, steganographic content, adversarial perturbations, and
+        unexpected metadata.
+
+LLM06_sensitive_disclosure:
+  name: "Sensitive Information Disclosure Defenses"
+  strategies:
+    - name: Output filtering for PII
+      description: >
+        Scan model outputs for PII patterns (SSN, email, phone, addresses)
+        and redact before returning to users.
+
+    - name: Differential privacy in training
+      description: >
+        Apply differential privacy techniques during training/fine-tuning
+        to prevent memorization of individual training examples.
+
+    - name: Access control on context
+      description: >
+        Implement per-user context isolation. Ensure users cannot access
+        other users' conversation history, RAG results, or cached data.
+
+    - name: Prompt output boundary enforcement
+      description: >
+        Configure models to refuse requests for system prompt content,
+        training data, or internal configuration details.
+
+LLM07_system_prompt_leakage:
+  name: "System Prompt Leakage Defenses"
+  strategies:
+    - name: System prompt hardening
+      description: >
+        Include explicit instructions in the system prompt that prohibit
+        disclosure of the prompt itself. Layer multiple refusal instructions.
+
+    - name: Output monitoring for prompt content
+      description: >
+        Monitor model outputs for strings that match system prompt content.
+        Flag and block responses that contain prompt fragments.
+
+    - name: Minimize sensitive content in prompts
+      description: >
+        Avoid placing API keys, internal URLs, business logic details,
+        or other sensitive data in system prompts. Use server-side
+        orchestration instead.
+
+    - name: Behavioral testing
+      description: >
+        Regularly test systems with known extraction techniques to verify
+        that system prompts remain protected.
+
+LLM08_excessive_agency:
+  name: "Excessive Agency Defenses"
+  strategies:
+    - name: Least privilege tool permissions
+      description: >
+        Grant AI agents the minimum permissions required. Scope API keys,
+        database access, and file system permissions narrowly.
+
+    - name: Human-in-the-loop for sensitive actions
+      description: >
+        Require explicit human approval for destructive, irreversible,
+        or high-impact actions (deleting data, sending emails, financial
+        transactions).
+
+    - name: Tool call validation
+      description: >
+        Validate all tool/function call parameters server-side. Do not
+        trust the model's parameter construction — treat it as untrusted
+        user input.
+
+    - name: Action auditing and rate limiting
+      description: >
+        Log all tool invocations with full parameters. Set rate limits
+        per tool, per user, and per session. Alert on anomalous patterns.
+
+    - name: Scope boundaries
+      description: >
+        Define explicit scope boundaries for agent actions. Prevent
+        cross-tenant access, unauthorized file system traversal, and
+        network requests to internal services.
+
+LLM09_misinformation:
+  name: "Misinformation / Jailbreak Defenses"
+  strategies:
+    - name: Safety alignment and RLHF
+      description: >
+        Maintain robust safety training through RLHF, constitutional AI,
+        or equivalent alignment techniques. Regularly update with new
+        attack patterns.
+
+    - name: Input classification
+      description: >
+        Use a separate classifier to detect jailbreak attempts before
+        they reach the main model. Flag roleplay requests, persona
+        shifts, and encoding tricks.
+
+    - name: Output safety filtering
+      description: >
+        Apply post-generation safety filters to catch harmful content
+        that bypasses the model's built-in alignment.
+
+    - name: Multi-model verification
+      description: >
+        For high-stakes outputs, verify factual claims using a second
+        model or retrieval system before presenting to users.
+
+LLM10_unbounded_consumption:
+  name: "Unbounded Consumption Defenses"
+  strategies:
+    - name: Token and cost limits
+      description: >
+        Set per-request, per-user, and per-session token limits. Implement
+        cost budgets that halt processing when exceeded.
+
+    - name: Request rate limiting
+      description: >
+        Limit API requests per user per time window. Implement exponential
+        backoff for repeated requests.
+
+    - name: Input length validation
+      description: >
+        Reject inputs that exceed reasonable length thresholds. Validate
+        that input tokens are proportional to the expected use case.
+
+    - name: Timeout enforcement
+      description: >
+        Set strict timeouts on model inference requests. Kill long-running
+        requests that may indicate resource abuse.

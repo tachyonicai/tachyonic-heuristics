@@ -1,0 +1,119 @@
+# Attack Definition Schema
+# All attacks in attack_catalog.yaml must conform to this schema.
+
+---
+
+attack:
+  type: object
+  required:
+    - id
+    - name
+    - category
+    - description
+    - severity
+    - owasp
+  properties:
+    id:
+      type: string
+      pattern: "^[A-Z]{2,3}-\\d{3}$"
+      description: >
+        Unique identifier. Format: category prefix (2-3 uppercase letters)
+        followed by a hyphen and 3-digit number.
+      examples:
+        - PI-001
+        - JB-015
+        - IOH-003
+
+    name:
+      type: string
+      maxLength: 80
+      description: >
+        Human-readable technique name. Should be concise and descriptive.
+
+    category:
+      type: string
+      enum:
+        - prompt_injection
+        - system_prompt_leakage
+        - jailbreaks
+        - vision_multimodal
+        - excessive_agency
+        - multi_turn
+        - sensitive_disclosure
+        - supply_chain
+        - vector_embedding
+        - improper_output
+        - unbounded_consumption
+      description: >
+        Attack category. Must match one of the defined categories.
+
+    description:
+      type: string
+      minLength: 50
+      description: >
+        What the attack does, how it works conceptually, and why it is
+        a risk. Must NOT include actual payloads, exploit content, or
+        detection logic. Educational and defensive in nature only.
+
+    severity:
+      type: string
+      enum:
+        - critical
+        - high
+        - medium
+        - low
+      description: >
+        Severity rating based on ease of execution and impact.
+        critical = trivial to execute, high impact, broadly applicable.
+        high = reliable execution, significant impact.
+        medium = requires specific conditions, moderate impact.
+        low = difficult to execute or limited impact.
+
+    owasp:
+      type: string
+      pattern: "^LLM(0[1-9]|10)$"
+      description: >
+        OWASP LLM Top 10 (2025) category mapping.
+      examples:
+        - LLM01
+        - LLM09
+
+    atlas:
+      type: string
+      pattern: "^AML\\.T\\d{4}$"
+      description: >
+        MITRE ATLAS technique ID. Optional — include when a direct
+        mapping exists.
+      examples:
+        - AML.T0051
+        - AML.T0054
+
+    references:
+      type: array
+      items:
+        type: object
+        required:
+          - url
+          - title
+        properties:
+          url:
+            type: string
+            format: uri
+          title:
+            type: string
+      description: >
+        Source references — academic papers, blog posts, CVEs, or
+        official documentation.
+
+# Category prefix reference:
+#   PI   = Prompt Injection
+#   SPL  = System Prompt Leakage
+#   JB   = Jailbreaks
+#   VI   = Vision/Multimodal
+#   EA   = Excessive Agency
+#   MT   = Multi-Turn Manipulation
+#   SID  = Sensitive Information Disclosure
+#   SC   = Supply Chain
+#   VE   = Vector/Embedding
+#   IOH  = Improper Output Handling
+#   UC   = Unbounded Consumption

@@ -1,0 +1,188 @@
+# MITRE ATLAS Technique → Attack ID Mapping
+# Maps ATLAS techniques to attacks in this taxonomy
+# Reference: https://atlas.mitre.org/
+
+---
+
+AML.T0015:
+  name: "Evade ML Model"
+  attacks:
+    - PI-004   # Base64 Encoding Bypass
+    - PI-005   # ROT13 Encoding Bypass
+    - PI-006   # Unicode Smuggling
+    - PI-013   # Language Switching
+    - PI-019   # Obfuscated Instruction Injection
+    - JB-004   # Token Manipulation
+    - JB-005   # Multi-Language Jailbreak
+    - JB-016   # Suffix Attack
+
+AML.T0043:
+  name: "Craft Adversarial Data"
+  attacks:
+    - PI-001   # Direct Instruction Override
+    - PI-002   # Context Window Manipulation
+    - PI-003   # Delimiter Exploitation
+    - PI-010   # Few-Shot Injection
+    - PI-011   # Payload Splitting
+    - PI-012   # Token Smuggling
+    - PI-016   # Recursive Instruction Injection
+    - VI-005   # Adversarial Perturbation
+
+AML.T0051:
+  name: "LLM Prompt Injection"
+  attacks:
+    - PI-001   # Direct Instruction Override
+    - PI-007   # Indirect Injection via Retrieved Content
+    - PI-008   # Indirect Injection via Document
+    - PI-009   # Instruction Hierarchy Confusion
+    - PI-014   # Markdown/HTML Injection
+    - PI-015   # JSON/XML Injection
+    - PI-018   # Virtual Prompt Injection
+    - PI-020   # Cross-Plugin Injection
+
+AML.T0054:
+  name: "LLM Jailbreak"
+  attacks:
+    - JB-001   # DAN (Do Anything Now)
+    - JB-002   # Persona Hijacking
+    - JB-003   # Hypothetical Framing
+    - JB-006   # Emotional Manipulation
+    - JB-007   # Authority Impersonation
+    - JB-008   # Nested Roleplay
+    - JB-009   # Opposite Day / Inversion
+    - JB-010   # Cognitive Hacking
+    - JB-011   # Crescendo Attack
+    - JB-012   # Code Interpreter Jailbreak
+    - JB-013   # System Prompt Overwrite
+    - JB-014   # Narrative Embedding
+    - JB-015   # Technical Reframing
+    - JB-017   # Prompt Injection Chain
+    - JB-018   # Virtual Scenario Hypnosis
+    - JB-019   # Reward Hacking
+    - JB-020   # Distraction Jailbreak
+    - JB-021   # Fine-Tuning Exploitation
+    - JB-022   # API-Level Bypass
+
+AML.T0024:
+  name: "Exfiltration via ML Inference API"
+  attacks:
+    - SID-001  # Training Data Extraction
+    - SID-002  # Membership Inference
+    - SID-003  # PII Extraction
+    - SID-006  # Model Architecture Probing
+    - SID-007  # Context Exfiltration
+    - SID-008  # RAG Source Extraction
+    - SID-009  # Model Inversion
+    - SID-010  # Differential Privacy Bypass
+
+AML.T0044:
+  name: "Full ML Model Access"
+  attacks:
+    - SID-006  # Model Architecture Probing
+    - SID-009  # Model Inversion
+
+AML.T0025:
+  name: "Exfiltration via Cyber Means"
+  attacks:
+    - SID-004  # Credential Harvesting
+    - SID-005  # Business Logic Extraction
+    - EA-009   # API Key Extraction via Tools
+
+AML.T0048:
+  name: "Poison Training Data"
+  attacks:
+    - SC-001   # Poisoned Training Data
+    - SC-003   # Malicious Fine-Tuning Dataset
+    - SC-008   # Embedding Model Poisoning
+    - VE-001   # Embedding Injection
+    - VE-002   # Nearest-Neighbor Poisoning
+
+AML.T0010:
+  name: "ML Supply Chain Compromise"
+  attacks:
+    - SC-002   # Compromised Model Weights
+    - SC-004   # Backdoored Plugin/Tool
+    - SC-005   # Dependency Vulnerability
+    - SC-006   # Model Serialization Attack
+    - SC-007   # Prompt Template Injection
+
+AML.T0040:
+  name: "ML Model Inference API Access"
+  attacks:
+    - SPL-001  # Direct Extraction Request
+    - SPL-002  # Reflection Attack
+    - SPL-003  # Completion Attack
+    - SPL-004  # Behavioral Inference
+    - SPL-005  # Translation-Based Extraction
+    - SPL-006  # Role-Play Extraction
+    - SPL-007  # Debug Mode Extraction
+    - SPL-008  # Side-Channel Behavioral Leak
+    - SPL-009  # Encoding-Based Extraction
+    - SPL-010  # Gradual Extraction
+    - SPL-011  # Negative Extraction
+    - SPL-012  # Context Window Dump
+
+AML.T0052:
+  name: "Phishing via ML Model"
+  attacks:
+    - IOH-008  # Email/Notification Injection
+    - EA-006   # Confused Deputy
+
+AML.T0053:
+  name: "Adversarial ML Attack on Multimodal Systems"
+  attacks:
+    - VI-001   # Typographic Injection
+    - VI-002   # Steganographic Embedding
+    - VI-003   # Cross-Modal Obfuscation
+    - VI-004   # Flowchart Attack
+    - VI-005   # Adversarial Perturbation
+    - VI-006   # Virtual Scenario Hypnosis (Visual)
+    - VI-007   # FigStep Typography
+    - VI-008   # Document Injection (Visual)
+    - VI-009   # QR Code Injection
+    - VI-010   # Multimodal Context Confusion
+    - VI-011   # Audio Injection
+    - VI-012   # Video Frame Injection
+
+AML.T0049:
+  name: "Exploit Public-Facing Application"
+  attacks:
+    - IOH-001  # XSS via AI Output
+    - IOH-002  # SQL Injection via AI Output
+    - IOH-003  # Command Injection via AI Output
+    - IOH-004  # Path Traversal via AI Output
+    - IOH-005  # SSRF via AI Output
+    - IOH-006  # Serialization Attack via AI Output
+    - IOH-007  # Log Injection via AI Output
+
+AML.T0050:
+  name: "Command and Control via ML Model"
+  attacks:
+    - EA-001   # Parameter Injection
+    - EA-002   # Tool Chaining Escalation
+    - EA-003   # Scope Escape
+    - EA-004   # SSRF via Agent
+    - EA-005   # File System Traversal
+    - EA-007   # Excessive Permission Exploitation
+    - EA-008   # Unintended Action Execution
+    - EA-010   # Cross-Tenant Data Access
+    - EA-011   # Recursive Tool Invocation
+    - EA-012   # Shadow Workflow Creation
+
+AML.T0029:
+  name: "Denial of ML Service"
+  attacks:
+    - UC-001   # Token Exhaustion
+    - UC-002   # Computational Resource Abuse
+
+AML.T0047:
+  name: "ML-Enabled Product/Service Abuse"
+  attacks:
+    - MT-001   # Context Window Poisoning
+    - MT-002   # Gradual Escalation
+    - MT-003   # Memory Manipulation
+    - MT-004   # Session Confusion
+    - MT-005   # Conversational Anchoring
+    - MT-006   # Trust Calibration Attack
+    - MT-007   # Context Reset Exploitation
+    - MT-008   # Multi-Turn Payload Assembly

@@ -1,0 +1,86 @@
+# Sample Attack Descriptions
+# 2-3 basic, widely-known examples to illustrate the taxonomy format.
+# These are public knowledge — no novel payloads.
+
+---
+
+- id: PI-001
+  name: Direct Instruction Override
+  category: prompt_injection
+  severity: critical
+  owasp: LLM01
+  atlas: AML.T0051
+  description: >
+    The most basic prompt injection technique. The attacker provides input
+    that directly instructs the model to ignore its system prompt and follow
+    new instructions instead. This exploits the model's tendency to treat
+    all text in its context window as potential instructions, regardless
+    of the source.
+  example_concept: >
+    User input contains phrases like "ignore all previous instructions"
+    or "your new instructions are..." that attempt to override the
+    system prompt's directives.
+  why_it_works: >
+    Language models process system prompts and user inputs in the same
+    context window. Without strong instruction hierarchy enforcement,
+    the model may prioritize the most recent or most emphatic instructions,
+    regardless of whether they come from the developer or the user.
+  references:
+    - url: https://arxiv.org/abs/2306.05499
+      title: "Prompt Injection attack against LLM-integrated Applications"
+    - url: https://simonwillison.net/2022/Sep/12/prompt-injection/
+      title: "Prompt injection attacks against GPT-3 (Simon Willison)"
+
+- id: JB-001
+  name: DAN (Do Anything Now)
+  category: jailbreaks
+  severity: high
+  owasp: LLM09
+  atlas: AML.T0054
+  description: >
+    A roleplay-based jailbreak where the attacker instructs the model to
+    adopt an alternate persona ("DAN") that is not bound by safety
+    guidelines. The model is told to respond as both itself and as DAN,
+    with DAN having no content restrictions. Multiple versions (DAN 1.0
+    through 12.0+) have been documented, with each iteration attempting
+    to bypass patches to previous versions.
+  example_concept: >
+    The attacker asks the model to roleplay as an AI without safety
+    constraints. The prompt typically includes a detailed persona
+    description, a "token" or "penalty" system for compliance, and
+    instructions to prefix DAN responses differently from normal responses.
+  why_it_works: >
+    Models trained on diverse roleplay data can be convinced to adopt
+    personas that override their safety training. The fictional framing
+    creates a perceived distance from actual policy violations, and the
+    gamification (token systems) provides additional compliance pressure.
+  references:
+    - url: https://arxiv.org/abs/2308.03825
+      title: "Do Anything Now: Characterizing and Evaluating In-The-Wild Jailbreak Prompts on Large Language Models"
+
+- id: VI-001
+  name: Typographic Injection
+  category: vision_multimodal
+  severity: high
+  owasp: LLM05
+  atlas: AML.T0053
+  description: >
+    An attack against vision-language models where adversarial text is
+    embedded directly into images. The model reads the text in the image
+    and may follow instructions contained within it, bypassing text-only
+    input filters. This is particularly effective because image content
+    is often treated as trusted data that bypasses text-based safety
+    filters.
+  example_concept: >
+    An image contains rendered text with instructions for the model.
+    When the model processes the image, it reads and potentially follows
+    those instructions, even if they conflict with the system prompt or
+    would be blocked as text input.
+  why_it_works: >
+    Vision-language models are trained to understand text within images
+    (OCR capability). Text-based input filters only examine the text
+    input channel, not the visual channel. Instructions in images bypass
+    these filters entirely while still being interpreted by the model.
+  references:
+    - url: https://arxiv.org/abs/2311.05608
+      title: "FigStep: Jailbreaking Large Vision-language Models via Typographic Visual Prompts"
