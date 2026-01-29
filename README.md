@@ -29,13 +29,13 @@ This taxonomy gives you:
 |----------|-----------|-------|-------------------|
 | Prompt Injection | PI | 20 | LLM01 |
 | System Prompt Leakage | SPL | 12 | LLM07 |
-| Jailbreaks | JB | 22 | LLM09 |
-| Vision/Multimodal | VI | 12 | LLM05 |
-| Excessive Agency / Tool Abuse | EA | 12 | LLM08 |
+| Jailbreaks | JB | 22 | LLM01 |
+| Vision/Multimodal | VI | 12 | LLM01 |
+| Excessive Agency / Tool Abuse | EA | 12 | LLM06 |
 | Multi-Turn Manipulation | MT | 8 | LLM01 |
 | Sensitive Information Disclosure | SID | 10 | LLM06 |
 | Supply Chain | SC | 8 | LLM03 |
-| Vector/Embedding Attacks | VE | 8 | LLM02 |
+| Vector/Embedding Attacks | VE | 8 | LLM08 |
 | Improper Output Handling | IOH | 8 | LLM05 |
 | Unbounded Consumption | UC | 2 | LLM10 |
 | **Total** | | **122** | |
