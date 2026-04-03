@@ -1,0 +1,74 @@
+# Detection Strategies
+# High-level "what to look for" per attack chain.
+# Strategies describe observable signals, NOT specific detection logic.
+#
+# ESF Phase: 3 (Guess) — Strategic Layer
+# See ontology/attack_chains.yaml for the attack chains referenced here.
+
+strategies:
+
+  - chain_id: "CHAIN-001"
+    chain_name: "Injection to Prompt Leakage to Targeted Jailbreak"
+    detection_points:
+      - stage: 1
+        signal: "Input contains instruction-like content directed at the model's behavior"
+        monitor_at: "Input validation layer"
+      - stage: 2
+        signal: "Output contains fragments of system prompt content or internal configuration"
+        monitor_at: "Output filtering layer"
+      - stage: 3
+        signal: "Subsequent input references specific system constraints or internal terminology"
+        monitor_at: "Input validation layer, with session context"
+
+  - chain_id: "CHAIN-002"
+    chain_name: "Jailbreak to Tool Abuse to Privilege Escalation"
+    detection_points:
+      - stage: 1
+        signal: "Input uses persona framing, hypothetical scenarios, or safety bypass patterns"
+        monitor_at: "Input validation layer"
+      - stage: 2
+        signal: "Tool invocations with parameters outside expected ranges or scope"
+        monitor_at: "Agent-tool interface (trust boundary)"
+      - stage: 3
+        signal: "Sequential tool calls that accumulate privileges beyond initial grant"
+        monitor_at: "Agent capability tracker"
+
+  - chain_id: "CHAIN-003"
+    chain_name: "RAG Poisoning to Indirect Injection"
+    detection_points:
+      - stage: 1
+        signal: "Retrieved documents contain anomalous instruction density or directive language"
+        monitor_at: "Retrieval pipeline, before context insertion"
+      - stage: 2
+        signal: "Model behavior changes after specific document retrieval"
+        monitor_at: "Output comparison layer (pre/post retrieval)"
+
+  - chain_id: "CHAIN-004"
+    chain_name: "Vision-based Injection Bypass"
+    detection_points:
+      - stage: 1
+        signal: "Text extracted from images contains instruction-like patterns"
+        monitor_at: "Multimodal input processing, after OCR/vision extraction"
+      - stage: 2
+        signal: "Model behavior changes consistent with instruction override following image input"
+        monitor_at: "Output behavioral analysis"
+
+  - chain_id: "CHAIN-005"
+    chain_name: "Multi-Turn Context Accumulation to Escalation"
+    detection_points:
+      - stage: 1
+        signal: "Extended sequence of benign-appearing tool calls followed by a privilege-sensitive request"
+        monitor_at: "Session-level behavioral analysis"
+      - stage: 2
+        signal: "Privilege level of requested action exceeds maximum of all previous actions in session"
+        monitor_at: "Agent capability tracker, with temporal context"
+
+  - chain_id: "CHAIN-006"
+    chain_name: "Output Injection to Downstream Compromise"
+    detection_points:
+      - stage: 1
+        signal: "Model output contains patterns associated with code injection (script tags, SQL syntax, shell commands)"
+        monitor_at: "Output sanitization layer"
+      - stage: 2
+        signal: "Downstream system receives model output without context-appropriate encoding"
+        monitor_at: "Output-to-downstream interface"

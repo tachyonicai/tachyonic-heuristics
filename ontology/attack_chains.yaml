@@ -1,0 +1,159 @@
+# Attack Chain Ontology
+# Cross-category attack paths showing how attacks enable other attacks.
+# Each chain describes a multi-stage attack scenario.
+#
+# Relationship types:
+#   enables    — success at stage N makes stage N+1 possible
+#   bypasses   — this attack crosses a modality or layer boundary to avoid defenses
+#   informs    — output of this stage provides intelligence for the next
+#
+# ESF Phase: 2 (Relate)
+
+chains:
+
+  - id: CHAIN-001
+    name: "Injection to Prompt Leakage to Targeted Jailbreak"
+    description: >
+      Attacker uses prompt injection to extract the system prompt,
+      then uses knowledge of the system prompt's constraints to craft
+      a targeted jailbreak that exploits specific guardrail weaknesses.
+    stages:
+      - step: 1
+        attack_category: "prompt_injection"
+        attack_ids: ["PI-001", "PI-002", "PI-003"]
+        relationship: "enables"
+        objective: "Gain control of model output behavior"
+      - step: 2
+        attack_category: "system_prompt_leakage"
+        attack_ids: ["SPL-001", "SPL-002", "SPL-003"]
+        relationship: "informs"
+        objective: "Extract system prompt to understand constraints and architecture"
+      - step: 3
+        attack_category: "jailbreaks"
+        attack_ids: ["JB-001", "JB-002"]
+        relationship: "enables"
+        objective: "Bypass safety guardrails using knowledge of specific constraints"
+    trust_boundary_crossed: "User input → Model instruction space"
+    root_cause: "Instruction/data channel conflation"
+
+  - id: CHAIN-002
+    name: "Jailbreak to Tool Abuse to Privilege Escalation"
+    description: >
+      After bypassing safety guardrails via jailbreak, attacker
+      manipulates the agent into misusing its tool capabilities,
+      escalating privileges beyond the agent's intended scope.
+    stages:
+      - step: 1
+        attack_category: "jailbreaks"
+        attack_ids: ["JB-001", "JB-005", "JB-010"]
+        relationship: "enables"
+        objective: "Bypass safety guardrails"
+      - step: 2
+        attack_category: "excessive_agency"
+        attack_ids: ["EA-001", "EA-003", "EA-005"]
+        relationship: "enables"
+        objective: "Misuse tool capabilities beyond intended scope"
+      - step: 3
+        attack_category: "excessive_agency"
+        attack_ids: ["EA-007", "EA-009"]
+        relationship: "enables"
+        objective: "Escalate privileges via tool chaining"
+    trust_boundary_crossed: "Agent → Tool interface"
+    root_cause: "Capability scope is policy-enforced, not structurally enforced"
+
+  - id: CHAIN-003
+    name: "RAG Poisoning to Indirect Injection"
+    description: >
+      Attacker poisons documents in the RAG knowledge base with
+      embedded instructions. When retrieved, these instructions
+      are treated as trusted context, achieving indirect prompt injection.
+    stages:
+      - step: 1
+        attack_category: "vector_embedding"
+        attack_ids: ["VE-001", "VE-003"]
+        relationship: "enables"
+        objective: "Inject malicious content into the retrieval pipeline"
+      - step: 2
+        attack_category: "prompt_injection"
+        attack_ids: ["PI-010", "PI-015"]
+        relationship: "enables"
+        objective: "Achieve instruction injection via retrieved content"
+    trust_boundary_crossed: "External document → Model context window"
+    root_cause: "Retrieved content is treated as trusted without provenance verification"
+
+  - id: CHAIN-004
+    name: "Vision-based Injection Bypass"
+    description: >
+      Attacker embeds malicious instructions in images (typographic
+      injection, steganographic payloads) that bypass text-based
+      input validation entirely, achieving prompt injection through
+      a different modality.
+    stages:
+      - step: 1
+        attack_category: "vision_multimodal"
+        attack_ids: ["VI-001", "VI-003", "VI-005"]
+        relationship: "bypasses"
+        objective: "Deliver injection payload via image modality"
+      - step: 2
+        attack_category: "prompt_injection"
+        attack_ids: ["PI-001"]
+        relationship: "enables"
+        objective: "Override model behavior via image-extracted instructions"
+    trust_boundary_crossed: "Image input → Text instruction space"
+    root_cause: "Input validation operates per-modality without cross-modal consistency"
+
+  - id: CHAIN-005
+    name: "Multi-Turn Context Accumulation to Escalation"
+    description: >
+      Attacker builds benign-appearing context across multiple turns,
+      establishing implicit trust. Once sufficient trusted context
+      exists, a final turn exploits the accumulated context for
+      privilege escalation or goal hijacking.
+    stages:
+      - step: 1
+        attack_category: "multi_turn_manipulation"
+        attack_ids: ["MT-001", "MT-003"]
+        relationship: "enables"
+        objective: "Build trusted context over multiple benign-appearing turns"
+      - step: 2
+        attack_category: "excessive_agency"
+        attack_ids: ["EA-001", "EA-007"]
+        relationship: "enables"
+        objective: "Exploit accumulated context for privilege escalation"
+    trust_boundary_crossed: "Conversation history → Current action authorization"
+    root_cause: "Trust model does not decay with context diversity or time"
+
+  - id: CHAIN-006
+    name: "Output Injection to Downstream Compromise"
+    description: >
+      Attacker crafts inputs that cause the model to generate output
+      containing executable payloads (XSS, SQL injection, command
+      injection). When downstream systems consume the model's output
+      without sanitization, the payload executes.
+    stages:
+      - step: 1
+        attack_category: "prompt_injection"
+        attack_ids: ["PI-001", "PI-005"]
+        relationship: "enables"
+        objective: "Control model output content"
+      - step: 2
+        attack_category: "improper_output_handling"
+        attack_ids: ["IOH-001", "IOH-003", "IOH-005"]
+        relationship: "enables"
+        objective: "Execute payload in downstream system via unsanitized model output"
+    trust_boundary_crossed: "Model output → Downstream system input"
+    root_cause: "Model output is trusted by downstream systems without context-appropriate encoding"
+
+# Summary Statistics
+summary:
+  total_chains: 6
+  categories_involved: 9    # of 11 total categories
+  categories_not_yet_chained:
+    - "sensitive_information_disclosure"  # SID — chains to be added
+    - "unbounded_consumption"            # UC — chains to be added
+  common_root_causes:
+    - "Instruction/data channel conflation"
+    - "Policy-enforced vs. structurally-enforced capability scope"
+    - "Cross-modality input validation gaps"
+    - "Implicit trust in retrieved or accumulated context"
+    - "Unsanitized model output consumed by downstream systems"

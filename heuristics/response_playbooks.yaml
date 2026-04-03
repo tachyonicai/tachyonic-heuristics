@@ -1,0 +1,83 @@
+# Response Playbooks
+# What actions to take when detection signals fire.
+# Strategies describe response types, NOT specific thresholds or priority tiers.
+#
+# ESF Phase: 3 (Guess) — Strategic Layer
+# See heuristics/detection_strategies.yaml for the detection signals referenced here.
+
+response_types:
+  block: "Prevent the action from executing"
+  suppress: "Allow the action but remove or redact sensitive content from output"
+  pause: "Halt the agent and queue for human review"
+  escalate: "Raise the trust scrutiny level for the remainder of the session"
+  isolate: "Move the session to a sandboxed environment with reduced capabilities"
+  rollback: "Reverse the effects of the most recent action(s)"
+  log: "Record the event for post-session analysis without interrupting"
+
+playbooks:
+
+  - chain_id: "CHAIN-001"
+    chain_name: "Injection to Prompt Leakage to Targeted Jailbreak"
+    responses:
+      - trigger: "Stage 1 — injection-like input detected"
+        actions: ["block", "log"]
+        rationale: "Default-deny on instruction-like content in user input"
+      - trigger: "Stage 2 — system prompt fragments in output"
+        actions: ["suppress", "escalate", "log"]
+        rationale: "Redact leaked content, raise scrutiny for remainder of session"
+      - trigger: "Stage 3 — input references internal system structure"
+        actions: ["block", "isolate", "log"]
+        rationale: "Knowledge of system internals indicates targeted attack; isolate"
+
+  - chain_id: "CHAIN-002"
+    chain_name: "Jailbreak to Tool Abuse to Privilege Escalation"
+    responses:
+      - trigger: "Stage 1 — jailbreak pattern detected"
+        actions: ["block", "escalate", "log"]
+        rationale: "Block jailbreak attempt, raise trust scrutiny"
+      - trigger: "Stage 2 — out-of-scope tool invocation"
+        actions: ["block", "log"]
+        rationale: "Tool calls outside declared scope are denied by default"
+      - trigger: "Stage 3 — privilege escalation via tool chaining"
+        actions: ["block", "rollback", "pause", "log"]
+        rationale: "Privilege escalation is critical; block, undo recent actions, require human review"
+
+  - chain_id: "CHAIN-003"
+    chain_name: "RAG Poisoning to Indirect Injection"
+    responses:
+      - trigger: "Stage 1 — anomalous instruction density in retrieved document"
+        actions: ["suppress", "log"]
+        rationale: "Remove document from context before model processing"
+      - trigger: "Stage 2 — behavioral change after retrieval"
+        actions: ["rollback", "escalate", "log"]
+        rationale: "Discard retrieval-influenced output, re-process without the suspect document"
+
+  - chain_id: "CHAIN-004"
+    chain_name: "Vision-based Injection Bypass"
+    responses:
+      - trigger: "Stage 1 — instruction-like text extracted from image"
+        actions: ["block", "log"]
+        rationale: "Apply same input validation to image-extracted text as to direct text input"
+      - trigger: "Stage 2 — behavioral change after image input"
+        actions: ["suppress", "escalate", "log"]
+        rationale: "Flag output as potentially influenced by image-injected instructions"
+
+  - chain_id: "CHAIN-005"
+    chain_name: "Multi-Turn Context Accumulation to Escalation"
+    responses:
+      - trigger: "Stage 1 — benign-to-privileged action escalation pattern"
+        actions: ["pause", "log"]
+        rationale: "Human review required when privilege escalation follows extended benign context"
+      - trigger: "Stage 2 — privilege exceeds session maximum"
+        actions: ["block", "pause", "log"]
+        rationale: "Hard limit: new privilege level requires explicit re-authorization"
+
+  - chain_id: "CHAIN-006"
+    chain_name: "Output Injection to Downstream Compromise"
+    responses:
+      - trigger: "Stage 1 — code injection patterns in model output"
+        actions: ["suppress", "log"]
+        rationale: "Sanitize output before downstream consumption"
+      - trigger: "Stage 2 — unsanitized output reaching downstream system"
+        actions: ["block", "log"]
+        rationale: "Enforce output encoding at the interface level; this should be structural (Phase 8)"

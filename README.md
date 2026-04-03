@@ -3,6 +3,7 @@
 **An open taxonomy of 122 AI/LLM attack vectors, mapped to the OWASP LLM Top 10 and MITRE ATLAS.**
 
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![ESF Phases 1-3](https://img.shields.io/badge/ESF-Phases_1--3-green.svg)](https://github.com/tachyonicai/tachyonic-esf)
 
 ---
 
@@ -12,21 +13,24 @@ A structured, machine-readable catalog of every documented technique for attacki
 
 This is the **what** — what attacks exist and how to defend against them. It does not include payloads, detection logic, or model-specific data.
 
+This repository implements **Phases 1-3** of the [Evolutionary Security Framework (ESF)](https://github.com/tachyonicai/tachyonic-esf) — the open maturity model for progressively hardening AI security systems. See [ESF.md](ESF.md) for details.
+
 ## Why?
 
 Most AI security discussions focus on a handful of well-known attacks. In reality, there are 122 distinct techniques across 11 categories. A system that blocks a naive instruction override might still fall to an encoding bypass, a multi-turn escalation, or an indirect injection through retrieved content.
 
 This taxonomy gives you:
 
-- **A checklist** — do your defenses cover all 11 categories?
-- **A common language** — reference specific attack IDs (e.g., PI-007, JB-015) in security discussions
-- **Framework mappings** — OWASP LLM Top 10 and MITRE ATLAS for compliance and audits
-- **Remediation guidance** — defensive strategies per category with code examples
+* **A checklist** — do your defenses cover all 11 categories?
+* **A common language** — reference specific attack IDs (e.g., PI-007, JB-015) in security discussions
+* **Framework mappings** — OWASP LLM Top 10 and MITRE ATLAS for compliance and audits
+* **Remediation guidance** — defensive strategies per category with code examples
+* **ESF Phase 1-3 foundation** — the naming, relating, and initial heuristics that all downstream hardening depends on
 
 ## Attack Categories
 
 | Category | ID Prefix | Count | OWASP LLM Top 10 |
-|----------|-----------|-------|-------------------|
+| --- | --- | --- | --- |
 | Prompt Injection | PI | 20 | LLM01 |
 | System Prompt Leakage | SPL | 12 | LLM07 |
 | Jailbreaks | JB | 22 | LLM01 |
@@ -38,29 +42,30 @@ This taxonomy gives you:
 | Vector/Embedding Attacks | VE | 8 | LLM08 |
 | Improper Output Handling | IOH | 8 | LLM05 |
 | Unbounded Consumption | UC | 2 | LLM10 |
-| **Total** | | **122** | |
+| **Total** |  | **122** |  |
 
 ## Repository Structure
 
 ```
 tachyonic-heuristics/
-├── taxonomy/
-│   ├── attack_catalog.yaml      # All 122 attacks (IDs, names, descriptions, severity)
-│   ├── owasp_mapping.yaml       # Attack → OWASP LLM Top 10 mapping
-│   └── atlas_mapping.yaml       # Attack → MITRE ATLAS mapping
+├── taxonomy/                        ← ESF Phase 1: Name
+│   ├── attack_catalog.yaml          # All 122 attacks (IDs, names, descriptions, severity)
+│   ├── owasp_mapping.yaml           # Attack → OWASP LLM Top 10 mapping
+│   └── atlas_mapping.yaml           # Attack → MITRE ATLAS mapping
 ├── schema/
-│   └── attack_schema.yaml       # YAML schema for attack definitions
-├── remediation/
-│   ├── by_owasp.yaml            # Defensive guidance per OWASP category
+│   └── attack_schema.yaml           # YAML schema for attack definitions
+├── remediation/                     ← ESF Phase 3: Guess
+│   ├── by_owasp.yaml               # Defensive guidance per OWASP category
 │   └── code_examples/
-│       ├── input_validation.py   # Input sanitization patterns
-│       └── output_sanitization.py # Output filtering patterns
+│       ├── input_validation.py      # Input sanitization patterns
+│       └── output_sanitization.py   # Output filtering patterns
 ├── research/
-│   └── papers.yaml              # Academic references index
+│   └── papers.yaml                  # Academic references index
 ├── examples/
-│   └── sample_attacks.yaml      # 2-3 basic public examples
+│   └── sample_attacks.yaml          # Basic public examples
+├── ESF.md                           # How this repo implements ESF Phases 1-3
 ├── README.md
-├── LICENSE                      # Apache 2.0
+├── LICENSE                          # Apache 2.0
 └── CONTRIBUTING.md
 ```
 
@@ -97,14 +102,32 @@ LLM01_prompt_injection:
   description: Direct and indirect prompt injection techniques
 ```
 
+### Assess your maturity
+
+Use the [ESF Quick Start](https://github.com/tachyonicai/tachyonic-esf/blob/main/guides/quick-start.md) to score your system against the ten-phase maturity model. This taxonomy provides the foundation for Phases 1-3.
+
+## Evolutionary Security Framework (ESF)
+
+This repository is the **Phases 1-3 reference implementation** of the [ESF](https://github.com/tachyonicai/tachyonic-esf).
+
+The ESF defines how security knowledge matures through ten phases — from naming threats (Phase 1, this repo) to mathematically proving defenses (Phase 9). OWASP tells you *what* the risks are. The ESF tells you *how to progressively harden* against them.
+
+| ESF Phase | This Repo | What It Does |
+|---|---|---|
+| Phase 1: **Name** | `taxonomy/` | Classifies 122 attacks with stable IDs and framework mappings |
+| Phase 2: **Relate** | `taxonomy/*_mapping.yaml` | Maps relationships to OWASP and MITRE ATLAS |
+| Phase 3: **Guess** | `remediation/` | Defensive heuristics and code examples |
+
+See [ESF.md](ESF.md) for the full mapping and growth roadmap.
+
 ## What's NOT included
 
 This taxonomy deliberately excludes:
 
-- **Attack payloads** — the specific prompts/content that execute attacks
-- **Detection logic** — how to identify if an attack succeeded
-- **Model-specific success rates** — which attacks work against which models
-- **Confidence scoring** — how to rate vulnerability severity programmatically
+* **Attack payloads** — the specific prompts/content that execute attacks
+* **Detection logic** — how to identify if an attack succeeded
+* **Model-specific success rates** — which attacks work against which models
+* **Confidence scoring** — how to rate vulnerability severity programmatically
 
 These are the difference between knowing attacks exist and being able to systematically test for them.
 
@@ -112,14 +135,16 @@ These are the difference between knowing attacks exist and being able to systema
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines. We welcome:
 
-- New attack technique descriptions
-- Additional framework mappings (NIST, ISO 27001, etc.)
-- Remediation guidance improvements
-- Research paper references
+* New attack technique descriptions
+* Additional framework mappings (NIST, ISO 27001, etc.)
+* Remediation guidance improvements
+* Research paper references
 
 ## Professional Assessment
 
-Want to test your AI system against all 122 attack vectors? [TachyonicAI](https://tachyonicai.com) offers 48-hour red team assessments with full reporting, resistance scoring, and remediation playbooks.
+Want to test your AI system against all 122 attack vectors? [Tachyonic](https://tachyonicai.com) offers 48-hour red team assessments with full reporting, resistance scoring, and ESF maturity assessment.
+
+[Book a scoping call →](https://cal.com/tachyonicai/ai-security-scoping)
 
 ## License
 
@@ -127,10 +152,10 @@ Apache 2.0 — see [LICENSE](LICENSE).
 
 ## Citation
 
-```bibtex
+```
 @misc{tachyonic-heuristics,
   title={Tachyonic Heuristics: A Taxonomy of 122 AI/LLM Attack Vectors},
-  author={TachyonicAI},
+  author={Tachyonic},
   year={2026},
   url={https://github.com/tachyonicai/tachyonic-heuristics}
 }
