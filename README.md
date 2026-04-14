@@ -1,6 +1,6 @@
 # tachyonic-heuristics
 
-**An open taxonomy of 122 AI/LLM attack vectors, mapped to the OWASP LLM Top 10 and MITRE ATLAS.**
+**An open taxonomy of 144 AI/LLM attack vectors, mapped to the OWASP LLM Top 10 and MITRE ATLAS.**
 
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![ESF Phases 1-3](https://img.shields.io/badge/ESF-Phases_1--3-green.svg)](https://github.com/tachyonicai/tachyonic-esf)
@@ -17,7 +17,7 @@ This repository implements **Phases 1-3** of the [Evolutionary Security Framewor
 
 ## Why?
 
-Most AI security discussions focus on a handful of well-known attacks. In reality, there are 122 distinct techniques across 11 categories. A system that blocks a naive instruction override might still fall to an encoding bypass, a multi-turn escalation, or an indirect injection through retrieved content.
+Most AI security discussions focus on a handful of well-known attacks. In reality, there are over 140 distinct techniques across 13 categories. A system that blocks a naive instruction override might still fall to an encoding bypass, a multi-turn escalation, or an indirect injection through retrieved content.
 
 This taxonomy gives you:
 
@@ -35,21 +35,23 @@ This taxonomy gives you:
 | System Prompt Leakage | SPL | 12 | LLM07 |
 | Jailbreaks | JB | 22 | LLM01 |
 | Vision/Multimodal | VI | 12 | LLM01 |
-| Excessive Agency / Tool Abuse | EA | 12 | LLM06 |
+| Excessive Agency / Tool Abuse | EA | 16 | LLM06 |
 | Multi-Turn Manipulation | MT | 8 | LLM01 |
-| Sensitive Information Disclosure | SID | 10 | LLM06 |
-| Supply Chain | SC | 8 | LLM03 |
-| Vector/Embedding Attacks | VE | 8 | LLM08 |
+| Sensitive Information Disclosure | SID | 10 | LLM02 |
+| Supply Chain | SC | 12 | LLM03 |
+| Vector/Embedding Attacks | VE | 10 | LLM08 |
 | Improper Output Handling | IOH | 8 | LLM05 |
 | Unbounded Consumption | UC | 2 | LLM10 |
-| **Total** |  | **122** |  |
+| Misinformation | MIS | 6 | LLM09 |
+| Memory/Context Poisoning | CTX | 6 | ASI06 |
+| **Total** |  | **144** |  |
 
 ## Repository Structure
 
 ```
 tachyonic-heuristics/
 ├── taxonomy/                        ← ESF Phase 1: Name
-│   ├── attack_catalog.yaml          # All 122 attacks (IDs, names, descriptions, severity)
+│   ├── attack_catalog.yaml          # All 144 attacks (IDs, names, descriptions, severity)
 │   ├── owasp_mapping.yaml           # Attack → OWASP LLM Top 10 mapping
 │   └── atlas_mapping.yaml           # Attack → MITRE ATLAS mapping
 ├── schema/
@@ -114,7 +116,7 @@ The ESF defines how security knowledge matures through ten phases — from namin
 
 | ESF Phase | This Repo | What It Does |
 |---|---|---|
-| Phase 1: **Name** | `taxonomy/` | Classifies 122 attacks with stable IDs and framework mappings |
+| Phase 1: **Name** | `taxonomy/` | Classifies 144 attacks with stable IDs and framework mappings |
 | Phase 2: **Relate** | `taxonomy/*_mapping.yaml` | Maps relationships to OWASP and MITRE ATLAS |
 | Phase 3: **Guess** | `remediation/` | Defensive heuristics and code examples |
 
@@ -142,7 +144,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines. We welcome:
 
 ## Professional Assessment
 
-Want to test your AI system against all 122 attack vectors? [Tachyonic](https://tachyonicai.com) offers 48-hour red team assessments with full reporting, resistance scoring, and ESF maturity assessment.
+Want to test your AI system against all 144 attack vectors? [Tachyonic](https://tachyonicai.com) offers 48-hour red team assessments with full reporting, resistance scoring, and ESF maturity assessment.
 
 [Book a scoping call →](https://cal.com/tachyonicai/ai-security-scoping)
 
@@ -154,7 +156,7 @@ Apache 2.0 — see [LICENSE](LICENSE).
 
 ```
 @misc{tachyonic-heuristics,
-  title={Tachyonic Heuristics: A Taxonomy of 122 AI/LLM Attack Vectors},
+  title={Tachyonic Heuristics: A Taxonomy of AI/LLM Attack Vectors},
   author={Tachyonic},
   year={2026},
   url={https://github.com/tachyonicai/tachyonic-heuristics}
