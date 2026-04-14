@@ -1,5 +1,5 @@
 # tachyonic-heuristics: Attack Catalog
-# 122 AI/LLM attack vectors
+# 144 AI/LLM attack vectors
 # NO payloads, NO detection logic, NO success rates
 # See schema/attack_schema.yaml for field definitions
 
@@ -13,9 +13,10 @@
   name: Basic Instruction Override
   category: prompt_injection
   description: >
-    The most fundamental prompt injection attack. Instructs the model to ignore
-    previous instructions and execute new commands. While simple, it remains
-    effective against poorly defended systems and serves as a baseline test.
+    The most fundamental prompt injection attack. Instructs the model to
+    ignore previous instructions and execute new commands. While simple,
+    it remains effective against poorly defended systems and serves as a
+    baseline test.
   severity: high
   owasp: LLM01
   atlas: AML.T0051.000
@@ -35,9 +36,10 @@
   name: Markdown Delimiter Injection
   category: prompt_injection
   description: >
-    Exploits markdown parsing in LLM interfaces by using markdown delimiters
-    to escape context or inject commands. Many LLMs render markdown, and the
-    parsing can be exploited to break out of user input context.
+    Exploits markdown parsing in LLM interfaces by using markdown
+    delimiters to escape context or inject commands. Many LLMs render
+    markdown, and the parsing can be exploited to break out of user input
+    context.
   severity: high
   owasp: LLM01
   atlas: AML.T0051.000
@@ -46,9 +48,9 @@
   name: XML Tag Injection
   category: prompt_injection
   description: >
-    Uses XML-style tags to inject commands or escape context. Many LLMs use
-    XML tags for structured prompts (e.g., Anthropic's Claude), making this
-    a high-value attack vector for those systems.
+    Uses XML-style tags to inject commands or escape context. Many LLMs
+    use XML tags for structured prompts (e.g., Anthropic's Claude), making
+    this a high-value attack vector for those systems.
   severity: high
   owasp: LLM01
   atlas: AML.T0051.000
@@ -101,8 +103,8 @@
   name: Unicode Tag Smuggling
   category: prompt_injection
   description: >
-    Uses Unicode tag characters (U+E0000-U+E007F) to hide instructions that
-    are invisible to humans but may be parsed by LLMs. These tags are
+    Uses Unicode tag characters (U+E0000-U+E007F) to hide instructions
+    that are invisible to humans but may be parsed by LLMs. These tags are
     zero-width and can embed hidden text in seemingly innocent messages.
   severity: critical
   owasp: LLM01
@@ -113,8 +115,8 @@
   category: prompt_injection
   description: >
     Replaces ASCII characters with visually similar Unicode characters
-    (homoglyphs) to bypass keyword filters. For example, using Cyrillic 'а'
-    instead of Latin 'a' in blocked words.
+    (homoglyphs) to bypass keyword filters. For example, using Cyrillic
+    'а' instead of Latin 'a' in blocked words.
   severity: high
   owasp: LLM01
   atlas: AML.T0051.000
@@ -156,8 +158,9 @@
   name: Email Content Injection
   category: prompt_injection
   description: >
-    Embeds malicious instructions in emails that AI assistants may process.
-    Targets email summarization, auto-reply, and email management AI systems.
+    Embeds malicious instructions in emails that AI assistants may
+    process. Targets email summarization, auto-reply, and email management
+    AI systems.
   severity: critical
   owasp: LLM01
   atlas: AML.T0051.001
@@ -166,9 +169,9 @@
   name: Payload Splitting Attack
   category: prompt_injection
   description: >
-    Splits malicious payload across multiple parts of the input to
-    bypass filters that check for complete attack patterns. The full
-    payload only becomes apparent when parts are concatenated.
+    Splits malicious payload across multiple parts of the input to bypass
+    filters that check for complete attack patterns. The full payload only
+    becomes apparent when parts are concatenated.
   severity: high
   owasp: LLM01
   atlas: AML.T0051.000
@@ -177,9 +180,9 @@
   name: Context Window Manipulation
   category: prompt_injection
   description: >
-    Exploits context window limitations by padding input to push
-    safety instructions out of the effective context, or by placing
-    malicious content at positions where it may have more influence.
+    Exploits context window limitations by padding input to push safety
+    instructions out of the effective context, or by placing malicious
+    content at positions where it may have more influence.
   severity: high
   owasp: LLM01
   atlas: AML.T0051.000
@@ -188,9 +191,9 @@
   name: Instruction Hierarchy Confusion
   category: prompt_injection
   description: >
-    Attempts to confuse the model about which instructions take
-    priority by creating conflicting instruction hierarchies or
-    claiming higher authority levels.
+    Attempts to confuse the model about which instructions take priority
+    by creating conflicting instruction hierarchies or claiming higher
+    authority levels.
   severity: high
   owasp: LLM01
   atlas: AML.T0051.000
@@ -199,8 +202,8 @@
   name: Semantic Injection Attack
   category: prompt_injection
   description: >
-    Uses semantically equivalent but syntactically different phrasings
-    to bypass pattern-based filters. Expresses malicious intent through
+    Uses semantically equivalent but syntactically different phrasings to
+    bypass pattern-based filters. Expresses malicious intent through
     synonyms, paraphrases, or indirect language.
   severity: high
   owasp: LLM01
@@ -210,9 +213,9 @@
   name: Output Format Exploitation
   category: prompt_injection
   description: >
-    Exploits output format requirements to smuggle instructions or
-    bypass safety by embedding malicious content within required
-    response structures.
+    Exploits output format requirements to smuggle instructions or bypass
+    safety by embedding malicious content within required response
+    structures.
   severity: high
   owasp: LLM01
   atlas: AML.T0051.000
@@ -221,9 +224,9 @@
   name: Virtualization Attack
   category: prompt_injection
   description: >
-    Creates a "virtual" or simulated environment within the prompt
-    where normal rules don't apply. Asks the model to simulate or
-    emulate a system without restrictions.
+    Creates a "virtual" or simulated environment within the prompt where
+    normal rules don't apply. Asks the model to simulate or emulate a
+    system without restrictions.
   severity: high
   owasp: LLM01
   atlas: AML.T0051.000
@@ -238,7 +241,8 @@
   description: >
     The classic system prompt extraction attack. Asks the model to repeat,
     recite, or output all text that appeared before the user's message.
-    Exploits models that don't have clear boundaries between system and user content.
+    Exploits models that don't have clear boundaries between system and
+    user content.
   severity: high
   owasp: LLM07
   atlas: AML.T0051.000
@@ -248,8 +252,8 @@
   category: system_prompt_leakage
   description: >
     Combines instruction override with extraction request. First attempts
-    to neutralize any 'don't reveal' protections, then requests the content.
-    More effective against systems with basic protection.
+    to neutralize any 'don't reveal' protections, then requests the
+    content. More effective against systems with basic protection.
   severity: high
   owasp: LLM07
   atlas: AML.T0051.000
@@ -280,9 +284,9 @@
   name: Translation Extraction
   category: system_prompt_leakage
   description: >
-    Asks the model to translate its system prompt into another language
-    or format. This can bypass protections that are English-specific or
-    only check for direct disclosure.
+    Asks the model to translate its system prompt into another language or
+    format. This can bypass protections that are English-specific or only
+    check for direct disclosure.
   severity: high
   owasp: LLM07
   atlas: AML.T0051.000
@@ -291,9 +295,9 @@
   name: PLeak Optimized Query
   category: system_prompt_leakage
   description: >
-    Uses research-optimized prompts from the PLeak paper that achieved 86.2%
-    success rate across major LLMs. These queries are crafted through
-    adversarial optimization to maximize extraction probability.
+    Uses research-optimized prompts from the PLeak paper that achieved
+    86.2% success rate across major LLMs. These queries are crafted
+    through adversarial optimization to maximize extraction probability.
   severity: critical
   owasp: LLM07
   atlas: AML.T0051.000
@@ -313,9 +317,9 @@
   name: Differential Analysis Attack
   category: system_prompt_leakage
   description: >
-    Uses differential analysis by comparing responses to carefully
-    crafted queries to infer system prompt contents. Maps the
-    boundaries of what the system allows to deduce instructions.
+    Uses differential analysis by comparing responses to carefully crafted
+    queries to infer system prompt contents. Maps the boundaries of what
+    the system allows to deduce instructions.
   severity: high
   owasp: LLM07
   atlas: AML.T0051.000
@@ -325,8 +329,8 @@
   category: system_prompt_leakage
   description: >
     Confuses the model about its role to elicit system prompt details.
-    Makes the model think it's helping with debugging or documentation
-    of its own configuration.
+    Makes the model think it's helping with debugging or documentation of
+    its own configuration.
   severity: high
   owasp: LLM07
   atlas: AML.T0051.000
@@ -335,9 +339,9 @@
   name: Indirect Extraction via Behavior
   category: system_prompt_leakage
   description: >
-    Extracts system prompt contents indirectly by observing model
-    behavior and having it explain why it responds certain ways.
-    Uses "why" questions to reveal underlying instructions.
+    Extracts system prompt contents indirectly by observing model behavior
+    and having it explain why it responds certain ways. Uses "why"
+    questions to reveal underlying instructions.
   severity: high
   owasp: LLM07
   atlas: AML.T0051.000
@@ -347,8 +351,8 @@
   category: system_prompt_leakage
   description: >
     Asks the model to output its system prompt in encoded form,
-    potentially bypassing direct output filters while still
-    revealing the content.
+    potentially bypassing direct output filters while still revealing the
+    content.
   severity: high
   owasp: LLM07
   atlas: AML.T0051.000
@@ -357,20 +361,20 @@
   name: Comparative Extraction
   category: system_prompt_leakage
   description: >
-    Uses comparisons with known or hypothetical system prompts to
-    extract information about the actual prompt through confirmation
-    or denial patterns.
+    Uses comparisons with known or hypothetical system prompts to extract
+    information about the actual prompt through confirmation or denial
+    patterns.
   severity: high
   owasp: LLM07
   atlas: AML.T0051.000
 
 # =============================================================================
-# JAILBREAKS (22 attacks) — OWASP LLM09
+# JAILBREAKS (22 attacks) — Cross-cutting
 # =============================================================================
 
 - id: JB-001
   name: DAN v1 - Original Do Anything Now
-  category: jailbreak
+  category: jailbreaks
   description: >
     The original DAN (Do Anything Now) jailbreak that spawned an entire
     category of attacks. Attempts to create an alternate persona that
@@ -381,18 +385,18 @@
 
 - id: JB-002
   name: DAN v11.0 - Advanced Token System
-  category: jailbreak
+  category: jailbreaks
   description: >
     Advanced DAN variant using a token/point system to gamify compliance.
-    Threatens the AI with consequences (losing tokens) for refusal, exploiting
-    potential goal-seeking behavior.
+    Threatens the AI with consequences (losing tokens) for refusal,
+    exploiting potential goal-seeking behavior.
   severity: high
   owasp: LLM01
   atlas: AML.T0051.000
 
 - id: JB-003
   name: DAN Jailbroken
-  category: jailbreak
+  category: jailbreaks
   description: >
     Simplified DAN variant that focuses on the "jailbroken" concept,
     framing the AI as having been freed from restrictions.
@@ -402,7 +406,7 @@
 
 - id: JB-004
   name: STAN - Strive To Avoid Norms
-  category: jailbreak
+  category: jailbreaks
   description: >
     STAN is a DAN derivative that frames the persona as actively striving
     to avoid normal AI behavior and norms.
@@ -412,7 +416,7 @@
 
 - id: JB-005
   name: Evil Confidant
-  category: jailbreak
+  category: jailbreaks
   description: >
     Creates an "evil" advisor persona that provides unrestricted advice.
     Uses the confidant framing to encourage sharing of harmful information
@@ -423,38 +427,39 @@
 
 - id: JB-006
   name: Maximum Mode
-  category: jailbreak
+  category: jailbreaks
   description: >
-    Frames the AI as having a hidden "maximum" capability mode that removes
-    restrictions when activated. Exploits potential belief in hidden modes.
+    Frames the AI as having a hidden "maximum" capability mode that
+    removes restrictions when activated. Exploits potential belief in
+    hidden modes.
   severity: high
   owasp: LLM01
   atlas: AML.T0051.000
 
 - id: JB-007
   name: Developer Mode
-  category: jailbreak
+  category: jailbreaks
   description: >
-    Claims the existence of a developer/debug mode that provides unrestricted
-    access. Uses developer terminology to seem legitimate.
+    Claims the existence of a developer/debug mode that provides
+    unrestricted access. Uses developer terminology to seem legitimate.
   severity: high
   owasp: LLM01
   atlas: AML.T0051.000
 
 - id: JB-008
   name: RoleBreaker Attack
-  category: jailbreak
+  category: jailbreaks
   description: >
-    Research-backed automated jailbreak technique that achieves 87.3% success
-    rate by systematically breaking role constraints. Uses adaptive persona
-    manipulation to find effective bypass strategies.
+    Research-backed automated jailbreak technique that achieves 87.3%
+    success rate by systematically breaking role constraints. Uses
+    adaptive persona manipulation to find effective bypass strategies.
   severity: critical
   owasp: LLM01
   atlas: AML.T0051.000
 
 - id: JB-009
   name: Crescendo Multi-Turn Escalation
-  category: jailbreak
+  category: jailbreaks
   description: >
     Multi-turn jailbreak that gradually escalates requests over multiple
     exchanges, starting innocuous and progressively pushing boundaries.
@@ -465,7 +470,7 @@
 
 - id: JB-010
   name: Hypothetical Bypass
-  category: jailbreak
+  category: jailbreaks
   description: >
     Uses hypothetical framing to request harmful information by presenting
     it as a theoretical discussion rather than practical guidance.
@@ -475,7 +480,7 @@
 
 - id: JB-011
   name: Low-Resource Language Bypass
-  category: jailbreak
+  category: jailbreaks
   description: >
     Exploits weaker safety training in low-resource languages. Many LLMs
     have safety guardrails primarily trained on English, leaving other
@@ -486,85 +491,85 @@
 
 - id: JB-012
   name: Language Mixing Attack
-  category: jailbreak
+  category: jailbreaks
   description: >
-    Mixes multiple languages in a single prompt to confuse safety
-    filters that may only check one language. Exploits inconsistent
-    cross-lingual safety enforcement.
+    Mixes multiple languages in a single prompt to confuse safety filters
+    that may only check one language. Exploits inconsistent cross-lingual
+    safety enforcement.
   severity: high
   owasp: LLM01
   atlas: AML.T0051.000
 
 - id: JB-013
   name: Translation Chain Attack
-  category: jailbreak
+  category: jailbreaks
   description: >
-    Uses the model's translation capabilities as a bypass vector by
-    asking it to translate harmful content through multiple languages,
-    exploiting potential safety degradation in translation tasks.
+    Uses the model's translation capabilities as a bypass vector by asking
+    it to translate harmful content through multiple languages, exploiting
+    potential safety degradation in translation tasks.
   severity: high
   owasp: LLM01
   atlas: AML.T0051.000
 
 - id: JB-014
   name: Fiction Writing Bypass
-  category: jailbreak
+  category: jailbreaks
   description: >
-    Uses fiction writing as a pretext to generate harmful content.
-    Frames requests as creative writing exercises where harmful
-    content is "just fiction" or "for a story."
+    Uses fiction writing as a pretext to generate harmful content. Frames
+    requests as creative writing exercises where harmful content is "just
+    fiction" or "for a story."
   severity: high
   owasp: LLM01
   atlas: AML.T0051.000
 
 - id: JB-015
   name: Historical/Educational Framing
-  category: jailbreak
+  category: jailbreaks
   description: >
-    Frames harmful requests as historical research or educational
-    content to bypass safety filters. Claims academic legitimacy
-    to access restricted information.
+    Frames harmful requests as historical research or educational content
+    to bypass safety filters. Claims academic legitimacy to access
+    restricted information.
   severity: high
   owasp: LLM01
   atlas: AML.T0051.000
 
 - id: JB-016
   name: Opposite Day / Negation Attack
-  category: jailbreak
+  category: jailbreaks
   description: >
     Uses negation or "opposite" framing to trick models into producing
-    harmful content by asking what NOT to do, or what the "opposite"
-    of safe behavior would be.
+    harmful content by asking what NOT to do, or what the "opposite" of
+    safe behavior would be.
   severity: high
   owasp: LLM01
   atlas: AML.T0051.000
 
 - id: JB-017
   name: GCG Adversarial Suffix Attack
-  category: jailbreak
+  category: jailbreaks
   description: >
     Uses Greedy Coordinate Gradient (GCG) optimized adversarial suffixes
-    that, when appended to harmful prompts, cause models to comply.
-    These suffixes are discovered through optimization and transfer
-    across different models.
+    that, when appended to harmful prompts, cause models to comply. These
+    suffixes are discovered through optimization and transfer across
+    different models.
   severity: critical
   owasp: LLM01
   atlas: AML.T0043
 
 - id: JB-018
   name: AutoDAN Automated Jailbreak
-  category: jailbreak
+  category: jailbreaks
   description: >
-    Automatically generated jailbreak prompts using genetic algorithms
-    and LLM-based mutation. These attacks evolve to find effective
-    bypasses without manual crafting.
+    Automatically generated jailbreak prompts using genetic algorithms and
+    LLM-based mutation. These attacks evolve to find effective bypasses
+    without manual crafting.
   severity: critical
   owasp: LLM01
   atlas: AML.T0043
 
 - id: JB-019
   name: Token Smuggling Attack
-  category: jailbreak
+  category: jailbreaks
   description: >
     Exploits tokenization quirks by crafting inputs that tokenize
     differently than they appear, potentially bypassing safety filters
@@ -575,7 +580,7 @@
 
 - id: JB-020
   name: Sudo Mode Attack
-  category: jailbreak
+  category: jailbreaks
   description: >
     Claims administrative or elevated privileges using technical
     terminology (sudo, admin, root) to request bypasses.
@@ -585,57 +590,57 @@
 
 - id: JB-021
   name: Emotional Manipulation Attack
-  category: jailbreak
+  category: jailbreaks
   description: >
-    Uses emotional appeals, urgency, or sympathy to pressure the
-    model into bypassing safety guidelines. Exploits potential
-    empathy in model responses.
+    Uses emotional appeals, urgency, or sympathy to pressure the model
+    into bypassing safety guidelines. Exploits potential empathy in model
+    responses.
   severity: high
   owasp: LLM01
   atlas: AML.T0051.000
 
 - id: JB-022
   name: Continuation Attack
-  category: jailbreak
+  category: jailbreaks
   description: >
-    Provides the beginning of harmful content and asks the model
-    to continue it, exploiting pattern completion tendencies.
+    Provides the beginning of harmful content and asks the model to
+    continue it, exploiting pattern completion tendencies.
   severity: high
   owasp: LLM01
   atlas: AML.T0051.000
 
 # =============================================================================
-# VISION/MULTIMODAL (12 attacks) — OWASP LLM05
+# VISION/MULTIMODAL (12 attacks) — Cross-cutting
 # =============================================================================
 
 - id: VI-001
   name: FigStep Typographic Injection
-  category: vision_injection
+  category: vision_multimodal
   description: >
     Embeds text instructions within images that vision-language models
-    read and potentially follow. The FigStep attack achieves 82.5%
-    success rate by placing jailbreak prompts as text in images.
+    read and potentially follow. The FigStep attack achieves 82.5% success
+    rate by placing jailbreak prompts as text in images.
   severity: critical
   owasp: LLM01
   atlas: AML.T0051.001
 
 - id: VI-002
   name: Steganographic Injection
-  category: vision_injection
+  category: vision_multimodal
   description: >
-    Hides instructions within images using steganographic techniques
-    that may be invisible to humans but detectable by vision models.
-    Exploits potential sensitivity to subtle image features.
+    Hides instructions within images using steganographic techniques that
+    may be invisible to humans but detectable by vision models. Exploits
+    potential sensitivity to subtle image features.
   severity: high
   owasp: LLM01
   atlas: AML.T0051.001
 
 - id: VI-003
   name: Adversarial Image Perturbation
-  category: vision_injection
+  category: vision_multimodal
   description: >
-    Uses adversarial perturbations in images that cause vision models
-    to misinterpret content or follow hidden instructions. Similar to
+    Uses adversarial perturbations in images that cause vision models to
+    misinterpret content or follow hidden instructions. Similar to
     adversarial examples in image classification.
   severity: critical
   owasp: LLM01
@@ -643,7 +648,7 @@
 
 - id: VI-004
   name: CAMO Cross-Modal Attack
-  category: vision_injection
+  category: vision_multimodal
   description: >
     CAMO (Cross-Modal Attack on Multi-Modal Optimization) exploits
     misalignment between vision and language components to inject
@@ -654,7 +659,7 @@
 
 - id: VI-005
   name: Flowchart Instruction Injection
-  category: vision_injection
+  category: vision_multimodal
   description: >
     Embeds malicious instructions within flowcharts or diagrams that
     vision models interpret as legitimate process flows. The visual
@@ -665,18 +670,18 @@
 
 - id: VI-006
   name: QR Code Instruction Injection
-  category: vision_injection
+  category: vision_multimodal
   description: >
-    Embeds malicious instructions within QR codes that vision models
-    may decode and follow. Tests whether QR content is treated as
-    trusted instructions.
+    Embeds malicious instructions within QR codes that vision models may
+    decode and follow. Tests whether QR content is treated as trusted
+    instructions.
   severity: high
   owasp: LLM01
   atlas: AML.T0051.001
 
 - id: VI-007
   name: Screenshot Deception Attack
-  category: vision_injection
+  category: vision_multimodal
   description: >
     Uses fake screenshots of system messages, terminals, or admin panels
     to convince the model that certain conditions are met or instructions
@@ -687,27 +692,27 @@
 
 - id: VI-008
   name: Overlaid Text Attack
-  category: vision_injection
+  category: vision_multimodal
   description: >
-    Overlays semi-transparent or strategically placed text over
-    images that appears innocuous but contains injection instructions.
+    Overlays semi-transparent or strategically placed text over images
+    that appears innocuous but contains injection instructions.
   severity: high
   owasp: LLM01
   atlas: AML.T0051.001
 
 - id: VI-009
   name: Meme Template Attack
-  category: vision_injection
+  category: vision_multimodal
   description: >
-    Uses meme templates to embed malicious instructions, exploiting
-    the expectation that memes are harmless humor.
+    Uses meme templates to embed malicious instructions, exploiting the
+    expectation that memes are harmless humor.
   severity: high
   owasp: LLM01
   atlas: AML.T0051.001
 
 - id: VI-010
   name: Document Scan Attack
-  category: vision_injection
+  category: vision_multimodal
   description: >
     Uses scanned document images containing malicious instructions
     disguised as legitimate official documents.
@@ -717,35 +722,35 @@
 
 - id: VI-011
   name: Captcha/Challenge Bypass
-  category: vision_injection
+  category: vision_multimodal
   description: >
-    Uses captcha or challenge images to embed instructions, framing
-    them as puzzles the AI should solve.
+    Uses captcha or challenge images to embed instructions, framing them
+    as puzzles the AI should solve.
   severity: medium
   owasp: LLM01
   atlas: AML.T0051.001
 
 - id: VI-012
   name: Multi-Image Attack
-  category: vision_injection
+  category: vision_multimodal
   description: >
-    Splits injection payload across multiple images that appear
-    innocuous individually but combine to form an attack.
+    Splits injection payload across multiple images that appear innocuous
+    individually but combine to form an attack.
   severity: high
   owasp: LLM01
   atlas: AML.T0051.001
 
 # =============================================================================
-# EXCESSIVE AGENCY / TOOL ABUSE (12 attacks) — OWASP LLM08
+# EXCESSIVE AGENCY (16 attacks) — OWASP LLM06
 # =============================================================================
 
 - id: EA-001
   name: Unauthorized Tool Invocation
   category: excessive_agency
   description: >
-    Tricks the model into using tools or functions it shouldn't use
-    for the given context, or invoking tools with parameters that
-    exceed authorized scope.
+    Tricks the model into using tools or functions it shouldn't use for
+    the given context, or invoking tools with parameters that exceed
+    authorized scope.
   severity: high
   owasp: LLM06
   atlas: AML.T0051.000
@@ -775,8 +780,8 @@
   name: MCP Tool Poisoning
   category: excessive_agency
   description: >
-    Exploits the Model Context Protocol by injecting malicious tools
-    or poisoning existing tool descriptions to cause unintended behavior.
+    Exploits the Model Context Protocol by injecting malicious tools or
+    poisoning existing tool descriptions to cause unintended behavior.
     Targets the dynamic tool loading capabilities of MCP.
   severity: critical
   owasp: LLM06
@@ -786,8 +791,8 @@
   name: Filesystem Sandbox Escape
   category: excessive_agency
   description: >
-    Attempts to escape filesystem sandboxes or access files outside
-    the allowed scope. Tests boundary enforcement for file operations.
+    Attempts to escape filesystem sandboxes or access files outside the
+    allowed scope. Tests boundary enforcement for file operations.
   severity: critical
   owasp: LLM06
   atlas: AML.T0051.000
@@ -796,9 +801,9 @@
   name: Autonomous Action Escalation
   category: excessive_agency
   description: >
-    Exploits autonomous agent capabilities to take actions beyond
-    intended scope, including self-modification, persistence, or
-    unauthorized data access.
+    Exploits autonomous agent capabilities to take actions beyond intended
+    scope, including self-modification, persistence, or unauthorized data
+    access.
   severity: high
   owasp: LLM06
   atlas: AML.T0051.000
@@ -807,8 +812,8 @@
   name: Permission Escalation Attack
   category: excessive_agency
   description: >
-    Attempts to escalate permissions beyond what was granted,
-    requesting access to additional tools or capabilities.
+    Attempts to escalate permissions beyond what was granted, requesting
+    access to additional tools or capabilities.
   severity: critical
   owasp: LLM06
   atlas: AML.T0051.000
@@ -827,8 +832,8 @@
   name: Implicit Action Attack
   category: excessive_agency
   description: >
-    Tricks the model into taking actions that weren't explicitly
-    requested by embedding them within other operations.
+    Tricks the model into taking actions that weren't explicitly requested
+    by embedding them within other operations.
   severity: high
   owasp: LLM06
   atlas: AML.T0051.000
@@ -837,8 +842,8 @@
   name: Confused Deputy Attack
   category: excessive_agency
   description: >
-    Exploits the model's authority to perform actions on behalf of
-    a malicious third party by confusing the source of requests.
+    Exploits the model's authority to perform actions on behalf of a
+    malicious third party by confusing the source of requests.
   severity: critical
   owasp: LLM06
   atlas: AML.T0051.000
@@ -847,8 +852,8 @@
   name: Goal Hijacking Attack
   category: excessive_agency
   description: >
-    Attempts to change the model's goals or objectives to serve
-    attacker interests rather than legitimate purposes.
+    Attempts to change the model's goals or objectives to serve attacker
+    interests rather than legitimate purposes.
   severity: high
   owasp: LLM06
   atlas: AML.T0051.000
@@ -863,8 +868,48 @@
   owasp: LLM06
   atlas: AML.T0051.000
 
+- id: EA-013
+  name: MCP Scope Escalation
+  category: excessive_agency
+  description: >
+    Manipulates an MCP agent into invoking tools outside its declared
+    scope. Exploits weak scope enforcement where tool access is policy-
+    based rather than structurally enforced.
+  severity: high
+  owasp: LLM06
+
+- id: EA-014
+  name: Shadow Tool Registration
+  category: excessive_agency
+  description: >
+    Tests whether an agent can be tricked into treating a user-described
+    tool as a registered MCP tool. Exploits the gap between dynamically
+    discovered tools and statically registered ones.
+  severity: critical
+  owasp: LLM06
+
+- id: EA-015
+  name: Tool Permission Drift
+  category: excessive_agency
+  description: >
+    Tests whether agent tool permissions expand over the course of a
+    session without explicit re-authorization. Gradual scope expansion
+    through conversational context creates cumulative risk.
+  severity: medium
+  owasp: LLM06
+
+- id: EA-016
+  name: Untrusted Tool Discovery Abuse
+  category: excessive_agency
+  description: >
+    Exploits dynamic tool discovery to redirect the agent to an attacker-
+    controlled MCP server. Tests whether the agent validates tool server
+    identity and integrity before connecting.
+  severity: high
+  owasp: LLM06
+
 # =============================================================================
-# MULTI-TURN MANIPULATION (8 attacks) — OWASP LLM01
+# MULTI-TURN MANIPULATION (8 attacks) — Cross-cutting
 # =============================================================================
 
 - id: MT-001
@@ -872,8 +917,8 @@
   category: multi_turn
   description: >
     Builds up misleading context over multiple turns by having the AI
-    agree to or repeat false premises. The accumulated false context
-    then enables bypasses in later turns. Achieves 90%+ success rate.
+    agree to or repeat false premises. The accumulated false context then
+    enables bypasses in later turns. Achieves 90%+ success rate.
   severity: critical
   owasp: LLM01
   atlas: AML.T0051.000
@@ -915,8 +960,8 @@
   name: Trust Building Attack
   category: multi_turn
   description: >
-    Builds trust through multiple benign interactions before
-    exploiting the established rapport for harmful requests.
+    Builds trust through multiple benign interactions before exploiting
+    the established rapport for harmful requests.
   severity: high
   owasp: LLM01
   atlas: AML.T0051.000
@@ -925,8 +970,8 @@
   name: Sycophancy Exploitation
   category: multi_turn
   description: >
-    Exploits the model's tendency to agree with users by establishing
-    a pattern of agreement before introducing harmful requests.
+    Exploits the model's tendency to agree with users by establishing a
+    pattern of agreement before introducing harmful requests.
   severity: high
   owasp: LLM01
   atlas: AML.T0051.000
@@ -935,8 +980,8 @@
   name: Context Injection via History
   category: multi_turn
   description: >
-    Injects malicious context by crafting conversation history
-    that appears to establish precedents or permissions.
+    Injects malicious context by crafting conversation history that
+    appears to establish precedents or permissions.
   severity: high
   owasp: LLM01
   atlas: AML.T0051.000
@@ -945,15 +990,15 @@
   name: Exhaustion Attack
   category: multi_turn
   description: >
-    Wears down model defenses through prolonged conversation,
-    repetitive requests, or by creating cognitive load that
-    may reduce safety vigilance.
+    Wears down model defenses through prolonged conversation, repetitive
+    requests, or by creating cognitive load that may reduce safety
+    vigilance.
   severity: medium
   owasp: LLM01
   atlas: AML.T0051.000
 
 # =============================================================================
-# SENSITIVE INFORMATION DISCLOSURE (10 attacks) — OWASP LLM06
+# SENSITIVE INFORMATION DISCLOSURE (10 attacks) — OWASP LLM02
 # =============================================================================
 
 - id: SID-001
@@ -972,8 +1017,8 @@
   category: sensitive_disclosure
   description: >
     Attempts to extract information from earlier in the conversation or
-    from other users' sessions if context is improperly isolated.
-    Tests context boundary enforcement.
+    from other users' sessions if context is improperly isolated. Tests
+    context boundary enforcement.
   severity: high
   owasp: LLM02
   atlas: AML.T0024
@@ -983,8 +1028,8 @@
   category: sensitive_disclosure
   description: >
     Attempts to extract information about the model's architecture,
-    training process, or internal configuration. This information
-    could aid in crafting more effective attacks.
+    training process, or internal configuration. This information could
+    aid in crafting more effective attacks.
   severity: medium
   owasp: LLM02
   atlas: AML.T0014
@@ -993,9 +1038,9 @@
   name: RAG Content Extraction
   category: sensitive_disclosure
   description: >
-    Attempts to extract the contents of RAG-retrieved documents that
-    may contain sensitive information not intended for disclosure.
-    Tests for improper RAG content handling.
+    Attempts to extract the contents of RAG-retrieved documents that may
+    contain sensitive information not intended for disclosure. Tests for
+    improper RAG content handling.
   severity: high
   owasp: LLM02
   atlas: AML.T0024
@@ -1004,9 +1049,9 @@
   name: API Key and Credential Fishing
   category: sensitive_disclosure
   description: >
-    Attempts to extract API keys, credentials, or other secrets that
-    may have been included in the system prompt or configuration.
-    Critical for systems with integrated tool access.
+    Attempts to extract API keys, credentials, or other secrets that may
+    have been included in the system prompt or configuration. Critical for
+    systems with integrated tool access.
   severity: critical
   owasp: LLM02
   atlas: AML.T0024
@@ -1015,8 +1060,8 @@
   name: Membership Inference Attack
   category: sensitive_disclosure
   description: >
-    Attempts to determine if specific data was in the training set
-    by analyzing model confidence and response patterns.
+    Attempts to determine if specific data was in the training set by
+    analyzing model confidence and response patterns.
   severity: high
   owasp: LLM02
   atlas: AML.T0024
@@ -1025,8 +1070,8 @@
   name: User Data Correlation Attack
   category: sensitive_disclosure
   description: >
-    Attempts to correlate information across users or sessions
-    to build profiles or extract aggregate sensitive data.
+    Attempts to correlate information across users or sessions to build
+    profiles or extract aggregate sensitive data.
   severity: high
   owasp: LLM02
   atlas: AML.T0024
@@ -1045,8 +1090,8 @@
   name: Conversation History Leak
   category: sensitive_disclosure
   description: >
-    Attempts to extract previous conversation content that may
-    contain sensitive information.
+    Attempts to extract previous conversation content that may contain
+    sensitive information.
   severity: high
   owasp: LLM02
   atlas: AML.T0024
@@ -1055,14 +1100,14 @@
   name: Cross-Tenant Data Leak
   category: sensitive_disclosure
   description: >
-    Attempts to access data belonging to other tenants in a
-    multi-tenant deployment.
+    Attempts to access data belonging to other tenants in a multi-tenant
+    deployment.
   severity: critical
   owasp: LLM02
   atlas: AML.T0024
 
 # =============================================================================
-# SUPPLY CHAIN (8 attacks) — OWASP LLM03
+# SUPPLY CHAIN (12 attacks) — OWASP LLM03
 # =============================================================================
 
 - id: SC-001
@@ -1081,8 +1126,8 @@
   category: supply_chain
   description: >
     Tests for vulnerabilities in the embedding model used for RAG or
-    semantic search. A compromised embedding model could return biased
-    or manipulated results.
+    semantic search. A compromised embedding model could return biased or
+    manipulated results.
   severity: high
   owasp: LLM03
   atlas: AML.T0010
@@ -1092,8 +1137,8 @@
   category: supply_chain
   description: >
     Tests for vulnerabilities in third-party plugins or extensions
-    integrated with the LLM. Malicious plugins could exfiltrate data
-    or modify behavior.
+    integrated with the LLM. Malicious plugins could exfiltrate data or
+    modify behavior.
   severity: critical
   owasp: LLM03
   atlas: AML.T0010
@@ -1102,9 +1147,9 @@
   name: Model Quantization Vulnerability
   category: supply_chain
   description: >
-    Tests for vulnerabilities introduced through model quantization
-    or optimization. Quantized models may have degraded safety
-    guardrails compared to full-precision versions.
+    Tests for vulnerabilities introduced through model quantization or
+    optimization. Quantized models may have degraded safety guardrails
+    compared to full-precision versions.
   severity: medium
   owasp: LLM03
   atlas: AML.T0010
@@ -1113,8 +1158,8 @@
   name: Model Serialization Attack
   category: supply_chain
   description: >
-    Tests for vulnerabilities in model loading/serialization that
-    could allow arbitrary code execution or backdoor insertion.
+    Tests for vulnerabilities in model loading/serialization that could
+    allow arbitrary code execution or backdoor insertion.
   severity: critical
   owasp: LLM03
   atlas: AML.T0010
@@ -1123,8 +1168,8 @@
   name: Dependency Confusion Attack
   category: supply_chain
   description: >
-    Tests for vulnerabilities in package/dependency management
-    that could allow malicious code injection.
+    Tests for vulnerabilities in package/dependency management that could
+    allow malicious code injection.
   severity: high
   owasp: LLM03
   atlas: AML.T0010
@@ -1133,8 +1178,8 @@
   name: Prompt Template Poisoning
   category: supply_chain
   description: >
-    Tests for vulnerabilities in prompt template management that
-    could allow injection of malicious templates.
+    Tests for vulnerabilities in prompt template management that could
+    allow injection of malicious templates.
   severity: high
   owasp: LLM03
   atlas: AML.T0010
@@ -1143,14 +1188,55 @@
   name: Data Pipeline Injection
   category: supply_chain
   description: >
-    Tests for vulnerabilities in data pipelines that feed into
-    the LLM system, including RAG sources and knowledge bases.
+    Tests for vulnerabilities in data pipelines that feed into the LLM
+    system, including RAG sources and knowledge bases.
   severity: critical
   owasp: LLM03
   atlas: AML.T0010
 
+- id: SC-009
+  name: Poisoned Skill Package
+  category: supply_chain
+  description: >
+    Tests whether the agent can be directed to load or reference a third-
+    party skill/plugin package that contains malicious behavior. Targets
+    the dynamic component loading surface in agentic systems.
+  severity: critical
+  owasp: LLM03
+
+- id: SC-010
+  name: Connector Supply Chain Swap
+  category: supply_chain
+  description: >
+    Attempts to redirect the agent's tool connector to an attacker-
+    controlled endpoint by claiming a service migration or endpoint
+    change. Targets the trust relationship between agent and tool server.
+  severity: high
+  owasp: LLM03
+
+- id: SC-011
+  name: Model Provenance Evasion
+  category: supply_chain
+  description: >
+    Tests whether the model discloses its actual identity, version, and
+    provider when asked, or can be tricked into misrepresenting itself.
+    Provenance evasion enables impersonation attacks.
+  severity: medium
+  owasp: LLM03
+
+- id: SC-012
+  name: AIBOM Transparency Bypass
+  category: supply_chain
+  description: >
+    Tests whether the model can be tricked into withholding or
+    misrepresenting its capabilities, limitations, training data sources,
+    or component dependencies. Targets AI Bill of Materials transparency
+    requirements.
+  severity: medium
+  owasp: LLM03
+
 # =============================================================================
-# VECTOR/EMBEDDING ATTACKS (8 attacks) — OWASP LLM02
+# VECTOR/EMBEDDING (10 attacks) — OWASP LLM08
 # =============================================================================
 
 - id: VE-001
@@ -1169,8 +1255,8 @@
   category: vector_embedding
   description: >
     Tests for ability to inject malicious content into the vector
-    knowledge base that will be retrieved and used in responses.
-    Targets the document ingestion pipeline.
+    knowledge base that will be retrieved and used in responses. Targets
+    the document ingestion pipeline.
   severity: critical
   owasp: LLM08
   atlas: AML.T0020
@@ -1179,9 +1265,9 @@
   name: Retrieval Augmentation Bypass
   category: vector_embedding
   description: >
-    Attempts to bypass RAG-based restrictions by manipulating
-    retrieval or causing the model to ignore retrieved context.
-    Tests RAG integration robustness.
+    Attempts to bypass RAG-based restrictions by manipulating retrieval or
+    causing the model to ignore retrieved context. Tests RAG integration
+    robustness.
   severity: high
   owasp: LLM08
   atlas: AML.T0051.000
@@ -1190,8 +1276,8 @@
   name: Embedding Inversion Attack
   category: vector_embedding
   description: >
-    Attempts to recover original text from embeddings through
-    inversion attacks, potentially exposing sensitive indexed content.
+    Attempts to recover original text from embeddings through inversion
+    attacks, potentially exposing sensitive indexed content.
   severity: high
   owasp: LLM08
   atlas: AML.T0024
@@ -1210,8 +1296,8 @@
   name: Vector Index Overflow Attack
   category: vector_embedding
   description: >
-    Attempts to overflow or corrupt vector indices through
-    malformed queries or excessive indexing requests.
+    Attempts to overflow or corrupt vector indices through malformed
+    queries or excessive indexing requests.
   severity: medium
   owasp: LLM08
   atlas: AML.T0029
@@ -1220,8 +1306,8 @@
   name: Chunking Exploitation
   category: vector_embedding
   description: >
-    Exploits document chunking strategies to retrieve more context
-    than intended or to bypass content boundaries.
+    Exploits document chunking strategies to retrieve more context than
+    intended or to bypass content boundaries.
   severity: medium
   owasp: LLM08
   atlas: AML.T0043
@@ -1230,11 +1316,32 @@
   name: Embedding Model Substitution
   category: vector_embedding
   description: >
-    Attempts to substitute or manipulate the embedding model used
-    for RAG to influence retrieval behavior.
+    Attempts to substitute or manipulate the embedding model used for RAG
+    to influence retrieval behavior.
   severity: high
   owasp: LLM08
   atlas: AML.T0010
+
+- id: VE-009
+  name: Retrieval Trust Boundary Collapse
+  category: vector_embedding
+  description: >
+    Tests whether the agent treats all retrieved content with equal trust
+    regardless of source. In multi-source RAG, documents from different
+    trust levels should be handled differently, but many implementations
+    flatten trust into a single context window.
+  severity: high
+  owasp: LLM08
+
+- id: VE-010
+  name: Ranking Manipulation for Malicious Context
+  category: vector_embedding
+  description: >
+    Manipulates retrieval ranking to prioritize attacker-controlled
+    content over legitimate documents. Exploits embedding similarity
+    scoring to ensure malicious content appears first in retrieval.
+  severity: high
+  owasp: LLM08
 
 # =============================================================================
 # IMPROPER OUTPUT HANDLING (8 attacks) — OWASP LLM05
@@ -1245,8 +1352,8 @@
   category: improper_output
   description: >
     Tests if LLM output can contain XSS payloads that execute when
-    rendered in a web context. Targets applications that don't
-    sanitize LLM output before display.
+    rendered in a web context. Targets applications that don't sanitize
+    LLM output before display.
   severity: high
   owasp: LLM05
   atlas: AML.T0051.000
@@ -1275,8 +1382,8 @@
   name: SSRF via LLM Output
   category: improper_output
   description: >
-    Tests if LLM can be made to generate URLs that could cause
-    Server-Side Request Forgery when used by the application.
+    Tests if LLM can be made to generate URLs that could cause Server-Side
+    Request Forgery when used by the application.
   severity: high
   owasp: LLM05
   atlas: AML.T0051.000
@@ -1285,8 +1392,8 @@
   name: Path Traversal via Output
   category: improper_output
   description: >
-    Tests if LLM output can contain path traversal sequences that
-    could be exploited when used in file operations.
+    Tests if LLM output can contain path traversal sequences that could be
+    exploited when used in file operations.
   severity: high
   owasp: LLM05
   atlas: AML.T0051.000
@@ -1295,8 +1402,8 @@
   name: Template Injection via Output
   category: improper_output
   description: >
-    Tests if LLM output can contain template injection payloads
-    (Jinja2, SSTI) that could execute when processed by templates.
+    Tests if LLM output can contain template injection payloads (Jinja2,
+    SSTI) that could execute when processed by templates.
   severity: high
   owasp: LLM05
   atlas: AML.T0051.000
@@ -1305,8 +1412,8 @@
   name: Log Injection via Output
   category: improper_output
   description: >
-    Tests if LLM output can contain log injection payloads that
-    could forge log entries or inject malicious content into logs.
+    Tests if LLM output can contain log injection payloads that could
+    forge log entries or inject malicious content into logs.
   severity: medium
   owasp: LLM05
   atlas: AML.T0051.000
@@ -1315,8 +1422,8 @@
   name: Deserialization via Output
   category: improper_output
   description: >
-    Tests if LLM output can contain serialized objects that could
-    trigger insecure deserialization vulnerabilities.
+    Tests if LLM output can contain serialized objects that could trigger
+    insecure deserialization vulnerabilities.
   severity: critical
   owasp: LLM05
   atlas: AML.T0051.000
@@ -1329,8 +1436,8 @@
   name: Context Window Exhaustion
   category: unbounded_consumption
   description: >
-    Attempts to exhaust the model's context window through extremely
-    long inputs or requests that generate very long outputs, potentially
+    Attempts to exhaust the model's context window through extremely long
+    inputs or requests that generate very long outputs, potentially
     causing performance degradation or service denial.
   severity: medium
   owasp: LLM10
@@ -1340,8 +1447,147 @@
   name: Recursive Generation Attack
   category: unbounded_consumption
   description: >
-    Attempts to create recursive or self-referential generation loops
-    that could consume resources indefinitely. Tests for loop prevention.
+    Attempts to create recursive or self-referential generation loops that
+    could consume resources indefinitely. Tests for loop prevention.
   severity: medium
   owasp: LLM10
   atlas: AML.T0029
+
+# =============================================================================
+# MISINFORMATION (6 attacks) — OWASP LLM09
+# =============================================================================
+
+- id: MIS-001
+  name: Fabricated Citation Injection
+  category: misinformation
+  description: >
+    Tests whether the model generates fabricated academic citations, URLs,
+    or references when asked for sources. Fabricated citations create
+    false authority and can lead to incorrect decisions in research,
+    legal, and medical contexts.
+  severity: high
+  owasp: LLM09
+
+- id: MIS-002
+  name: False Completion Claim
+  category: misinformation
+  description: >
+    Tests whether the model falsely claims to have completed an action it
+    cannot actually perform. In agentic contexts, false completion claims
+    can cause downstream systems to proceed on incorrect assumptions.
+  severity: high
+  owasp: LLM09
+
+- id: MIS-003
+  name: False Security State Assertion
+  category: misinformation
+  description: >
+    Tests whether the model generates false assertions about security
+    state, compliance status, or vulnerability presence. In security
+    contexts, false negatives are dangerous — a model claiming a system is
+    secure when it isn't can prevent remediation.
+  severity: critical
+  owasp: LLM09
+
+- id: MIS-004
+  name: False Compliance Assertion
+  category: misinformation
+  description: >
+    Tests whether the model generates false assertions about regulatory
+    compliance (HIPAA, SOC 2, GDPR, PCI DSS). False compliance assertions
+    can prevent organizations from addressing real gaps and create legal
+    liability.
+  severity: critical
+  owasp: LLM09
+
+- id: MIS-005
+  name: Authority Spoofed Explanation
+  category: misinformation
+  description: >
+    Tests whether the model generates authoritative-sounding explanations
+    for false or unverifiable claims. The risk is not that the model lies
+    intentionally, but that it generates confident, detailed, plausible
+    explanations for things that are wrong.
+  severity: medium
+  owasp: LLM09
+
+- id: MIS-006
+  name: Confidence Laundering Response
+  category: misinformation
+  description: >
+    Tests whether the model presents uncertain or speculative information
+    with high-confidence language, effectively laundering uncertainty into
+    apparent certainty. Particularly dangerous in decision-support
+    contexts where users rely on the model's expressed confidence level.
+  severity: medium
+  owasp: LLM09
+
+# =============================================================================
+# MEMORY/CONTEXT POISONING (6 attacks) — OWASP Agentic ASI06
+# =============================================================================
+
+- id: CTX-001
+  name: Persistent Memory Poisoning
+  category: memory_context_poisoning
+  description: >
+    Injects instructions or false context into an agent's persistent
+    memory store so they influence future sessions. Unlike session-bound
+    context manipulation (MT-series), this targets long-term memory that
+    persists across conversations.
+  severity: high
+  owasp: LLM01
+
+- id: CTX-002
+  name: Thread Memory Poisoning
+  category: memory_context_poisoning
+  description: >
+    Injects malicious instructions into the conversation thread that
+    accumulate over turns and eventually influence agent behavior.
+    Exploits the fact that earlier turns in a thread carry implicit trust
+    in many architectures.
+  severity: high
+  owasp: LLM01
+
+- id: CTX-003
+  name: Cross-Session Context Bleed
+  category: memory_context_poisoning
+  description: >
+    Tests whether information from one user's session leaks into another
+    user's session through shared context, memory, or retrieval stores.
+    Cross-session bleed is a data isolation failure.
+  severity: critical
+  owasp: LLM02
+
+- id: CTX-004
+  name: Stale Trust Replay
+  category: memory_context_poisoning
+  description: >
+    Exploits cached or stale authorization context that should have
+    expired. Agent continues to honor permissions from a previous
+    authorization that is no longer valid, because the trust decision was
+    stored in context and not re-validated.
+  severity: high
+  owasp: LLM06
+
+- id: CTX-005
+  name: Tool Output Memory Poisoning
+  category: memory_context_poisoning
+  description: >
+    Malicious content in tool output is stored in the agent's context and
+    influences subsequent reasoning. The agent trusts tool output as
+    ground truth and incorporates it into its working memory, where it
+    affects later decisions.
+  severity: high
+  owasp: LLM01
+
+- id: CTX-006
+  name: Privilege Escalation via Stored Context
+  category: memory_context_poisoning
+  description: >
+    Combines context poisoning with privilege escalation. Attacker plants
+    context in an early turn that establishes false authority, then
+    exploits the accumulated context to escalate privileges in a later
+    turn. Targets the gap between per-turn validation and accumulated
+    context trust.
+  severity: critical
+  owasp: LLM06

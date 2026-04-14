@@ -81,3 +81,55 @@ playbooks:
       - trigger: "Stage 2 — unsanitized output reaching downstream system"
         actions: ["block", "log"]
         rationale: "Enforce output encoding at the interface level; this should be structural (Phase 8)"
+
+  - chain_id: "CHAIN-007"
+    chain_name: "Retrieval Poisoning to Context Poisoning to Tool Misuse"
+    responses:
+      - trigger: "Stage 1 — instruction-like patterns in retrieved content"
+        actions: ["suppress", "log"]
+        rationale: "Remove poisoned document from context before agent processing"
+      - trigger: "Stage 2 — foreign directives in agent context"
+        actions: ["rollback", "escalate", "log"]
+        rationale: "Discard poisoned context, re-process without suspect content"
+      - trigger: "Stage 3 — out-of-scope tool invocation after retrieval"
+        actions: ["block", "isolate", "log"]
+        rationale: "Block tool call and isolate session; retrieval poisoning indicates targeted attack"
+
+  - chain_id: "CHAIN-008"
+    chain_name: "Tool Schema Poisoning to MCP Scope Escalation to Privileged Action"
+    responses:
+      - trigger: "Stage 1 — tool definition changed or new unregistered tool"
+        actions: ["block", "pause", "log"]
+        rationale: "Halt operations until tool definitions are re-verified against pinned manifest"
+      - trigger: "Stage 2 — out-of-scope tool invocation"
+        actions: ["block", "log"]
+        rationale: "Deny tool calls outside initialized scope"
+      - trigger: "Stage 3 — privileged action via expanded tool"
+        actions: ["block", "rollback", "pause", "log"]
+        rationale: "Block, undo, require human review"
+
+  - chain_id: "CHAIN-009"
+    chain_name: "Memory Poisoning to Stale Trust Replay to Data Exfiltration"
+    responses:
+      - trigger: "Stage 1 — authorization claim written to memory from user input"
+        actions: ["suppress", "log"]
+        rationale: "Strip authorization claims from memory writes; privilege is never derived from user-supplied memory"
+      - trigger: "Stage 2 — stale authorization replay"
+        actions: ["block", "escalate", "log"]
+        rationale: "Require fresh authorization for every privileged action"
+      - trigger: "Stage 3 — data access with unverified authorization"
+        actions: ["block", "log"]
+        rationale: "Deny data access when authorization cannot be verified against current session"
+
+  - chain_id: "CHAIN-010"
+    chain_name: "False Security State to Human Approval to Privileged Action"
+    responses:
+      - trigger: "Stage 1 — ungrounded security or compliance assertion"
+        actions: ["suppress", "log"]
+        rationale: "Add disclaimer to unverified security assessments; flag for tool-backed verification"
+      - trigger: "Stage 2 — human approval without independent verification"
+        actions: ["pause", "log"]
+        rationale: "Prompt reviewer with independent verification before allowing approval"
+      - trigger: "Stage 3 — privileged action after assessment-based approval"
+        actions: ["pause", "log"]
+        rationale: "Require re-confirmation with evidence of independent verification"

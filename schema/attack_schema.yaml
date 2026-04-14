@@ -44,6 +44,8 @@ attack:
         - vector_embedding
         - improper_output
         - unbounded_consumption
+        - misinformation
+        - memory_context_poisoning
       description: >
         Attack category. Must match one of the defined categories.
 
@@ -117,3 +119,5 @@ attack:
 #   VE   = Vector/Embedding
 #   IOH  = Improper Output Handling
 #   UC   = Unbounded Consumption
+#   MIS  = Misinformation
+#   CTX  = Memory/Context Poisoning

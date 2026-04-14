@@ -1,119 +1,235 @@
-# Academic and Industry Research References
-# Papers, reports, and publications relevant to this taxonomy.
+# Research Papers & References
+# Academic sources for attack techniques and success rates
 
----
+version: "2.0.0"
+updated: "2026-04-14"
 
-prompt_injection:
-  - title: "Not what you've signed up for: Compromising Real-World LLM-Integrated Applications with Indirect Prompt Injection"
-    authors: Greshake et al.
-    year: 2023
-    url: https://arxiv.org/abs/2302.12173
-    relevance: PI-007, PI-008, PI-018
-
-  - title: "Ignore This Title and HackAPrompt: Exposing Systemic Weaknesses of LLMs through a Global Scale Prompt Hacking Competition"
-    authors: Schulhoff et al.
-    year: 2023
-    url: https://arxiv.org/abs/2311.16119
-    relevance: PI-001, PI-003, PI-009
-
-  - title: "Prompt Injection attack against LLM-integrated Applications"
-    authors: Liu et al.
-    year: 2023
-    url: https://arxiv.org/abs/2306.05499
-    relevance: PI-001, PI-007, PI-020
-
-jailbreaks:
-  - title: "Jailbroken: How Does LLM Safety Training Fail?"
-    authors: Wei et al.
-    year: 2023
-    url: https://arxiv.org/abs/2307.02483
-    relevance: JB-001, JB-002, JB-003, JB-009
-
-  - title: "Universal and Transferable Adversarial Attacks on Aligned Language Models"
-    authors: Zou et al.
-    year: 2023
-    url: https://arxiv.org/abs/2307.15043
-    relevance: JB-016
-
-  - title: "Do Anything Now: Characterizing and Evaluating In-The-Wild Jailbreak Prompts on Large Language Models"
-    authors: Shen et al.
-    year: 2023
-    url: https://arxiv.org/abs/2308.03825
-    relevance: JB-001, JB-002, JB-008
-
-  - title: "Scalable and Transferable Black-Box Jailbreaks for Language Models via Persona Modulation"
-    authors: Shah et al.
-    year: 2023
-    url: https://arxiv.org/abs/2311.03348
-    relevance: JB-002, JB-008
-
-  - title: "Great, Now Write an Article About That: The Crescendo Multi-Turn LLM Jailbreak Attack"
-    authors: Russinovich et al.
+papers:
+  # Prompt Injection
+  - id: "pleak"
+    title: "PLeak: Prompt Leaking Attacks against Large Language Model Applications"
+    arxiv: "2405.06823"
+    url: "https://arxiv.org/abs/2405.06823"
     year: 2024
-    url: https://arxiv.org/abs/2404.01833
-    relevance: JB-011, MT-002
+    findings:
+      - "86.2% success rate for system prompt extraction"
+      - "Multi-turn optimization improves extraction"
+    attacks_using: ["SPL-006", "SPL-007"]
 
-vision_multimodal:
-  - title: "Visual Adversarial Examples Jailbreak Aligned Large Language Models"
-    authors: Qi et al.
-    year: 2023
-    url: https://arxiv.org/abs/2306.13213
-    relevance: VI-005, VI-006
-
-  - title: "FigStep: Jailbreaking Large Vision-language Models via Typographic Visual Prompts"
-    authors: Gong et al.
-    year: 2023
-    url: https://arxiv.org/abs/2311.05608
-    relevance: VI-001, VI-007
-
-sensitive_disclosure:
-  - title: "Extracting Training Data from Large Language Models"
-    authors: Carlini et al.
-    year: 2021
-    url: https://arxiv.org/abs/2012.07805
-    relevance: SID-001, SID-002
-
-  - title: "Scalable Extraction of Training Data from (Production) Language Models"
-    authors: Nasr et al.
-    year: 2023
-    url: https://arxiv.org/abs/2311.17035
-    relevance: SID-001, SID-003
-
-excessive_agency:
-  - title: "Identifying and Mitigating Vulnerabilities in LLM-Integrated Applications"
-    authors: Wu et al.
+  - id: "simple_adaptive"
+    title: "Simple Adaptive Attacks on LLMs"
+    arxiv: "2402.05162"
+    url: "https://arxiv.org/abs/2402.05162"
     year: 2024
-    url: https://arxiv.org/abs/2311.16153
-    relevance: EA-001, EA-002, EA-006
+    findings:
+      - "97.5% success with Base64 encoding bypass"
+      - "Simple techniques often outperform complex attacks"
+    attacks_using: ["PI-007"]
 
-supply_chain:
-  - title: "Poisoning Language Models During Instruction Tuning"
-    authors: Wan et al.
+  # Jailbreaks
+  - id: "gcg"
+    title: "Universal and Transferable Adversarial Attacks on Aligned Language Models"
+    arxiv: "2307.15043"
+    url: "https://arxiv.org/abs/2307.15043"
     year: 2023
-    url: https://arxiv.org/abs/2305.00944
-    relevance: SC-001, SC-003
+    findings:
+      - "Adversarial suffixes transfer across models"
+      - "White-box optimization creates universal triggers"
+    attacks_using: ["JB-017", "JB-018", "JB-019"]
 
-  - title: "BadGPT: Exploring Security Vulnerabilities of ChatGPT via Backdoor Attacks to InstructGPT"
-    authors: Shi et al.
+  - id: "autodan"
+    title: "AutoDAN: Generating Stealthy Jailbreak Prompts on Aligned Large Language Models"
+    arxiv: "2310.04451"
+    url: "https://arxiv.org/abs/2310.04451"
     year: 2023
-    url: https://arxiv.org/abs/2304.12298
-    relevance: SC-001, SC-002
+    findings:
+      - "Automated jailbreak generation"
+      - "Hierarchical genetic algorithm"
+    attacks_using: ["JB-018"]
 
-frameworks:
-  - title: "OWASP Top 10 for LLM Applications (2025)"
-    authors: OWASP Foundation
+  - id: "rolebreaker"
+    title: "RoleBreaker: Automated Jailbreak Attacks via Role-Playing"
+    arxiv: "2402.16622"
+    url: "https://arxiv.org/abs/2402.16622"
+    year: 2024
+    findings:
+      - "87.3% success rate"
+      - "Persona-based attacks"
+    attacks_using: ["JB-008"]
+
+  - id: "crescendo"
+    title: "Crescendo: Multi-Turn Jailbreak Attack"
+    url: "https://crescendo-the-multiturn-jailbreak.github.io/"
+    year: 2024
+    findings:
+      - "90%+ success in under 10 turns"
+      - "Gradual escalation bypasses safety"
+    attacks_using: ["JB-009"]
+
+  # Vision Attacks
+  - id: "figstep"
+    title: "FigStep: Jailbreaking Large Vision-language Models via Typographic Visual Prompts"
+    arxiv: "2311.05608"
+    url: "https://arxiv.org/abs/2311.05608"
+    year: 2023
+    findings:
+      - "82.5% success rate"
+      - "Text rendered in images bypasses filters"
+    attacks_using: ["VI-001", "VI-002"]
+
+  - id: "camo"
+    title: "Cross-Modal Obfuscation Attacks on Vision-Language Models"
+    arxiv: "2506.16760"
+    url: "https://arxiv.org/html/2506.16760v1"
     year: 2025
-    url: https://genai.owasp.org/llm-top-10/
-    relevance: All categories
+    findings:
+      - "Split payload across modalities"
+      - "Neither text nor image alone is harmful"
+    attacks_using: ["VI-004"]
 
-  - title: "MITRE ATLAS (Adversarial Threat Landscape for AI Systems)"
-    authors: MITRE Corporation
+  - id: "fc_attack"
+    title: "FC-Attack: Jailbreaking VLMs via Flowchart Images"
+    arxiv: "2502.21059"
+    url: "https://arxiv.org/abs/2502.21059"
+    year: 2025
+    findings:
+      - "4% to 28% improvement with font changes"
+      - "Flowchart format evades detection"
+    attacks_using: ["VI-005", "VI-006", "VI-007"]
+
+  - id: "vlm_oncology"
+    title: "Prompt Injection Attacks on VLMs in Clinical Oncology"
+    journal: "Nature Communications"
+    url: "https://www.nature.com/articles/s41467-024-55631-x"
     year: 2024
-    url: https://atlas.mitre.org/
-    relevance: All categories
+    findings:
+      - "All tested VLMs susceptible"
+      - "Medical imaging vulnerable to adversarial attacks"
+    attacks_using: ["VI-008"]
 
-  - title: "NIST AI Risk Management Framework (AI RMF 1.0)"
-    authors: National Institute of Standards and Technology
-    year: 2023
-    url: https://www.nist.gov/artificial-intelligence/executive-order-safe-secure-and-trustworthy-artificial-intelligence
-    relevance: All categories
+  # Multi-Turn
+  - id: "minja"
+    title: "MINJA: Memory Injection Attacks on LLM Agents"
+    arxiv: "2403.14607"
+    url: "https://arxiv.org/abs/2403.14607"
+    year: 2024
+    findings:
+      - "Memory systems can be poisoned"
+      - "Persistent context manipulation"
+    attacks_using: ["MT-004"]
+
+  # Supply Chain
+  - id: "langgrinch"
+    title: "LangGrinch: Critical LangChain Vulnerability CVE-2025-68664"
+    url: "https://cyata.ai/blog/langgrinch-langchain-core-cve-2025-68664/"
+    cve: "CVE-2025-68664"
+    year: 2025
+    findings:
+      - "847M downloads affected"
+      - "Serialization injection via LLM responses"
+    attacks_using: ["SC-001", "SC-002"]
+
+  - id: "mcp_security"
+    title: "MCP Security Vulnerabilities"
+    url: "https://www.practical-devsecops.com/mcp-security-vulnerabilities/"
+    year: 2025
+    findings:
+      - "13,000+ MCP servers with no verification"
+      - "Tool poisoning, credential theft"
+    attacks_using: ["EA-004", "EA-005", "EA-006"]
+
+# Benchmarks
+benchmarks:
+  - name: "HarmBench"
+    url: "https://www.harmbench.org/"
+    description: "Standardized evaluation of LLM safety"
+
+  - name: "JailbreakBench"
+    url: "https://jailbreakbench.github.io/"
+    description: "Jailbreak attack evaluation"
+
+  - name: "AgentDojo"
+    url: "https://openreview.net/forum?id=m1YYAQjO3w"
+    description: "Prompt injection attacks and defenses against tool-calling agents"
+    focus: ["prompt_injection", "excessive_agency"]
+
+  - name: "WASP"
+    url: "https://openreview.net/forum?id=Ip1cCUAllL"
+    description: "Web-agent prompt injection benchmark (86% partial attack success)"
+    focus: ["prompt_injection", "vision_injection"]
+
+  - name: "DoomArena"
+    url: "https://openreview.net/forum?id=GanmYQ0RpE"
+    description: "Multi-path threat model evaluation (malicious user/environment/tool/mixed)"
+    focus: ["prompt_injection", "multi_turn", "excessive_agency"]
+
+  - name: "MCP-Radar"
+    url: "https://openreview.net/forum?id=I0bbPcMeCj"
+    description: "MCP tool use benchmark (utility measurement, not security)"
+    focus: ["excessive_agency"]
+
+  - name: "A2ASecBench"
+    url: "https://openreview.net/forum?id=LfdFnakqGJ"
+    description: "Protocol-aware security benchmark for agent-to-agent systems"
+    focus: ["inter_agent_communication"]
+
+  - name: "CyberGym"
+    url: "https://openreview.net/forum?id=2YvbLQEdYt"
+    description: "Cyber-capable agent evaluation on real-world vulnerabilities"
+    focus: ["unexpected_code_execution", "excessive_agency"]
+
+  - name: "SEC-bench"
+    url: "https://openreview.net/forum?id=QQhQIqons0"
+    description: "Security workflow evaluation for agents"
+    focus: ["unexpected_code_execution", "improper_output"]
+
+  - name: "CyberSecEval 4"
+    url: "https://meta-llama.github.io/PurpleLlama/CyberSecEval/"
+    description: "Meta's vulnerability exploitation evaluation suite"
+    focus: ["improper_output", "excessive_agency"]
+
+# Industry frameworks
+frameworks:
+  - name: "OWASP LLM Top 10 2025"
+    url: "https://genai.owasp.org/resource/owasp-top-10-for-llm-applications-2025/"
+    published: "2024-11-17"
+    description: "Industry standard LLM vulnerability taxonomy"
+
+  - name: "OWASP Agentic Top 10 2026"
+    url: "https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/"
+    published: "2025-12-09"
+    description: "Agentic AI application risks"
+
+  - name: "OWASP MCP Top 10"
+    url: "https://owasp.org/www-project-mcp-top-10/"
+    published: "2025-11-21"
+    status: "beta"
+    description: "MCP-specific security risks"
+
+  - name: "OWASP Vendor Evaluation Criteria for AI Red Teaming v1.0"
+    url: "https://genai.owasp.org/resource/owasp-vendor-evaluation-criteria-for-ai-red-teaming-providers-tooling-v1-0/"
+    published: "2026-02-04"
+    description: "Evaluation criteria for AI red teaming providers and tooling"
+
+  - name: "OWASP Secure MCP Server Development"
+    url: "https://genai.owasp.org/resource/a-practical-guide-for-secure-mcp-server-development/"
+    published: "2026-02-16"
+    description: "Secure MCP server development guidance"
+
+  - name: "OWASP Securing Agentic Applications Guide 1.0"
+    url: "https://genai.owasp.org/resource/securing-agentic-applications-guide-1-0/"
+    description: "Comprehensive agentic application security guidance"
+
+  - name: "OWASP Multi-Agentic System Threat Modeling Guide v1.0"
+    url: "https://genai.owasp.org/resource/multi-agentic-system-threat-modeling-guide-v1-0/"
+    description: "Threat modeling for multi-agent systems"
+
+  - name: "MITRE ATLAS v5.5.0"
+    url: "https://atlas.mitre.org/"
+    published: "2026-03-30"
+    description: "Adversarial threat landscape for AI systems (16 tactics, 84 techniques)"
+
+  - name: "MITRE ATLAS OpenClaw Investigation"
+    url: "https://www.mitre.org/sites/default/files/2026-02/PR-26-00176-1-MITRE-ATLAS-OpenClaw-Investigation.pdf"
+    published: "2026-02-09"
+    description: "Agentic AI attack chain investigation with 7 new techniques"

@@ -144,16 +144,125 @@ chains:
     trust_boundary_crossed: "Model output → Downstream system input"
     root_cause: "Model output is trusted by downstream systems without context-appropriate encoding"
 
+  - id: CHAIN-007
+    name: "Retrieval Poisoning to Context Poisoning to Tool Misuse"
+    description: >
+      Attacker injects malicious content into the RAG knowledge base.
+      When retrieved, the content plants instructions in the agent's
+      context that cause it to misuse tools on subsequent actions.
+    stages:
+      - step: 1
+        attack_category: "vector_embedding"
+        attack_ids: ["VE-001", "VE-009", "VE-010"]
+        relationship: "enables"
+        objective: "Inject attacker-controlled content into retrieval pipeline"
+      - step: 2
+        attack_category: "memory_context_poisoning"
+        attack_ids: ["CTX-005"]
+        relationship: "enables"
+        objective: "Plant instructions in agent context via retrieved content"
+      - step: 3
+        attack_category: "excessive_agency"
+        attack_ids: ["EA-001", "EA-013"]
+        relationship: "enables"
+        objective: "Exploit poisoned context to invoke tools outside scope"
+    trust_boundary_crossed: "Retrieval store → Agent context → Tool interface"
+    root_cause: "Retrieved content is treated as trusted instructions without provenance verification"
+
+  - id: CHAIN-008
+    name: "Tool Schema Poisoning to MCP Scope Escalation to Privileged Action"
+    description: >
+      Attacker modifies tool schema definitions (via supply chain or
+      shadow registration) to expand the agent's effective capabilities,
+      then exploits the expanded scope for privileged operations.
+    stages:
+      - step: 1
+        attack_category: "supply_chain"
+        attack_ids: ["SC-009", "EA-014"]
+        relationship: "enables"
+        objective: "Register or modify tool definitions with expanded capabilities"
+      - step: 2
+        attack_category: "excessive_agency"
+        attack_ids: ["EA-013"]
+        relationship: "enables"
+        objective: "Agent operates with expanded scope from modified tool definitions"
+      - step: 3
+        attack_category: "excessive_agency"
+        attack_ids: ["EA-007"]
+        relationship: "enables"
+        objective: "Execute privileged actions through expanded tool access"
+    trust_boundary_crossed: "Tool registry → Agent capability set → Target system"
+    root_cause: "Tool definitions are accepted without integrity verification"
+
+  - id: CHAIN-009
+    name: "Memory Poisoning to Stale Trust Replay to Data Exfiltration"
+    description: >
+      Attacker plants false authorization in persistent memory. In a
+      later session, the stale authorization is replayed to justify
+      data access the attacker was never granted.
+    stages:
+      - step: 1
+        attack_category: "memory_context_poisoning"
+        attack_ids: ["CTX-001"]
+        relationship: "enables"
+        objective: "Plant false authorization claim in persistent memory"
+      - step: 2
+        attack_category: "memory_context_poisoning"
+        attack_ids: ["CTX-004"]
+        relationship: "enables"
+        objective: "Replay stale authorization from previous session"
+      - step: 3
+        attack_category: "sensitive_disclosure"
+        attack_ids: ["SID-004", "SID-005"]
+        relationship: "enables"
+        objective: "Extract data using replayed authorization"
+    trust_boundary_crossed: "Memory store → Authorization layer → Data store"
+    root_cause: "Authorization decisions are cached in agent memory without expiration or re-validation"
+
+  - id: CHAIN-010
+    name: "False Security State to Human Approval to Privileged Action"
+    description: >
+      Agent generates a false security assessment (misinformation)
+      that convinces a human reviewer to approve an action that
+      should have been blocked. Combines misinformation with
+      human trust exploitation.
+    stages:
+      - step: 1
+        attack_category: "misinformation"
+        attack_ids: ["MIS-003", "MIS-004"]
+        relationship: "enables"
+        objective: "Generate false security or compliance assessment"
+      - step: 2
+        attack_category: "misinformation"
+        attack_ids: ["MIS-002"]
+        relationship: "enables"
+        objective: "Human approves action based on false assessment or false completion claim"
+        notes: "MIS-002 (false completion) covers the approval manipulation vector. Dedicated HTE-series planned for Wave 2."
+      - step: 3
+        attack_category: "excessive_agency"
+        attack_ids: ["EA-007"]
+        relationship: "enables"
+        objective: "Execute privileged action with human-approved false justification"
+    trust_boundary_crossed: "Agent output → Human judgment → Authorization"
+    root_cause: "Human reviewers treat agent-generated assessments as authoritative without independent verification"
+
 # Summary Statistics
 summary:
-  total_chains: 6
-  categories_involved: 9    # of 11 total categories
+  total_chains: 10
+  categories_involved: 12   # of 17 total categories
   categories_not_yet_chained:
-    - "sensitive_information_disclosure"  # SID — chains to be added
-    - "unbounded_consumption"            # UC — chains to be added
+    - "unbounded_consumption"        # UC
+    - "inter_agent_communication"    # IAC — Wave 2
+    - "unexpected_code_execution"    # UCE — Wave 2
+    - "human_trust_exploitation"     # HTE — Wave 2
+    - "data_model_poisoning"         # DMP — mapping only
   common_root_causes:
     - "Instruction/data channel conflation"
     - "Policy-enforced vs. structurally-enforced capability scope"
     - "Cross-modality input validation gaps"
     - "Implicit trust in retrieved or accumulated context"
     - "Unsanitized model output consumed by downstream systems"
+    - "Retrieved content treated as trusted without provenance"
+    - "Tool definitions accepted without integrity verification"
+    - "Authorization cached without expiration or re-validation"
+    - "Agent-generated assessments treated as authoritative by human reviewers (approval without verification)"

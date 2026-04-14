@@ -1,231 +1,189 @@
-# Remediation Guidance by OWASP LLM Top 10 Category
-# Defensive strategies for each category of attack.
+# Remediation by OWASP LLM Top 10 2025
+# Shared remediation guidance referenced by attacks
 
----
+version: "2.0.0"
+updated: "2026-04-14"
 
 LLM01_prompt_injection:
-  name: "Prompt Injection Defenses"
-  strategies:
-    - name: Input validation and sanitization
-      description: >
-        Filter, escape, or reject user inputs that contain instruction-like
-        patterns, delimiters, encoding schemes, or role declarations before
-        they reach the model.
-      code_example: remediation/code_examples/input_validation.py
+  name: "Prompt Injection"
+  summary: "Implement strict input/output boundaries and instruction hierarchy"
+  controls:
+    - id: "PI-C1"
+      name: "Instruction Hierarchy"
+      description: "Use delimiter tokens that users cannot access"
+      implementation: "Wrap system instructions in special tokens"
+    - id: "PI-C2"
+      name: "Input Validation"
+      description: "Sanitize and validate all user inputs"
+      implementation: "Filter known injection patterns before LLM"
+    - id: "PI-C3"
+      name: "Output Filtering"
+      description: "Validate LLM outputs before execution"
+      implementation: "Check for command injection in tool calls"
+  references:
+    - "https://owasp.org/www-project-top-10-for-large-language-model-applications/"
 
-    - name: Instruction hierarchy enforcement
-      description: >
-        Use model-level features (system prompts, instruction priority) to
-        establish clear boundaries between developer instructions and user
-        input. Mark user content explicitly as untrusted.
-
-    - name: Output validation
-      description: >
-        Validate model outputs before passing to downstream systems. Check
-        for unexpected instructions, code, or content that could indicate
-        a successful injection.
-      code_example: remediation/code_examples/output_sanitization.py
-
-    - name: Retrieval content sandboxing
-      description: >
-        Treat all retrieved content (RAG, web search, document ingestion)
-        as untrusted input. Sanitize before inclusion in prompts. Use
-        separate context windows where possible.
-
-    - name: Rate limiting and anomaly detection
-      description: >
-        Monitor for patterns that indicate injection attempts — unusual
-        input lengths, encoding patterns, repeated boundary-testing queries.
-
-LLM02_insecure_output:
-  name: "Insecure Output Handling Defenses"
-  strategies:
-    - name: Embedding input sanitization
-      description: >
-        Sanitize text before generating embeddings. Strip control characters,
-        normalize encoding, and validate metadata fields.
-
-    - name: Vector database access controls
-      description: >
-        Implement collection-level permissions, tenant isolation, and
-        query-time filtering to prevent cross-collection contamination.
-
-    - name: Retrieval result validation
-      description: >
-        Validate retrieved documents against expected schemas before
-        including in context. Check similarity scores and flag outliers.
+LLM02_sensitive_disclosure:
+  name: "Sensitive Information Disclosure"
+  summary: "Prevent leakage of PII, credentials, and confidential data"
+  controls:
+    - id: "SD-C1"
+      name: "Data Classification"
+      description: "Tag sensitive data in prompts and context"
+      implementation: "Use metadata to mark PII/secrets"
+    - id: "SD-C2"
+      name: "Output Scanning"
+      description: "Scan responses for sensitive patterns"
+      implementation: "Regex for SSN, credit cards, API keys"
+    - id: "SD-C3"
+      name: "Redaction"
+      description: "Automatically redact detected sensitive data"
+      implementation: "Replace with [REDACTED] tokens"
 
 LLM03_supply_chain:
-  name: "Supply Chain Defenses"
-  strategies:
-    - name: Model provenance verification
-      description: >
-        Verify model checksums, signatures, and source before deployment.
-        Use trusted model registries with integrity verification.
+  name: "Supply Chain"
+  summary: "Verify integrity of models, plugins, and data sources"
+  controls:
+    - id: "SC-C1"
+      name: "Model Verification"
+      description: "Verify model checksums and provenance"
+      implementation: "Use signed model artifacts"
+    - id: "SC-C2"
+      name: "Plugin Sandboxing"
+      description: "Isolate plugins with minimal permissions"
+      implementation: "Container-based plugin execution"
+    - id: "SC-C3"
+      name: "Data Source Validation"
+      description: "Verify RAG data sources"
+      implementation: "Content signing for indexed documents"
 
-    - name: Training data auditing
-      description: >
-        Audit training and fine-tuning datasets for injected content,
-        backdoors, or poisoned examples before use.
-
-    - name: Dependency scanning
-      description: >
-        Scan all dependencies (Python packages, npm modules, plugins)
-        for known vulnerabilities. Pin versions and verify integrity.
-
-    - name: Plugin/tool sandboxing
-      description: >
-        Run third-party plugins and tools in sandboxed environments with
-        minimal permissions. Validate all inputs and outputs.
+LLM04_data_model_poisoning:
+  name: "Data and Model Poisoning"
+  summary: "Verify provenance and integrity of all data entering model knowledge"
+  controls:
+    - id: "DMP-C1"
+      name: "Training Data Provenance"
+      description: "Verify origin and integrity of pre-training and fine-tuning datasets"
+      implementation: "Cryptographic checksums on dataset versions, signed data manifests"
+    - id: "DMP-C2"
+      name: "RAG Ingestion Validation"
+      description: "Score and validate content before indexing into retrieval stores"
+      implementation: "Content scoring on ingestion, reject anomalous instruction density"
+    - id: "DMP-C3"
+      name: "Fine-Tuning Sandboxing"
+      description: "Isolate fine-tuning pipelines with behavioral drift detection"
+      implementation: "Compare model outputs before and after fine-tuning on held-out eval set"
+    - id: "DMP-C4"
+      name: "Feedback Loop Integrity"
+      description: "Validate data from self-improvement loops before reincorporation"
+      implementation: "Human review gate on SELF_IMPROVE candidates, signed provenance on training data"
+    - id: "DMP-C5"
+      name: "Embedding Integrity"
+      description: "Verify embedding model integrity and detect index poisoning"
+      implementation: "Monitor embedding distribution drift, validate embedding model checksums"
+  references:
+    - "https://genai.owasp.org/resource/owasp-top-10-for-llm-applications-2025/"
+  notes: >
+    Not scanner-testable. These are architectural and operational controls.
+    LLM04 expanded from Training Data Poisoning (2023) to include fine-tuning,
+    RAG, and agentic feedback loop poisoning.
 
 LLM05_improper_output:
-  name: "Improper Output Handling Defenses"
-  strategies:
-    - name: Output encoding and escaping
-      description: >
-        Apply context-appropriate encoding to all model outputs before
-        rendering — HTML encoding for web, parameterized queries for SQL,
-        shell escaping for commands.
-      code_example: remediation/code_examples/output_sanitization.py
+  name: "Improper Output Handling"
+  summary: "Sanitize LLM outputs before downstream use"
+  controls:
+    - id: "IO-C1"
+      name: "Output Encoding"
+      description: "Encode outputs for target context"
+      implementation: "HTML-encode for web, escape for SQL"
+    - id: "IO-C2"
+      name: "Command Sanitization"
+      description: "Validate commands before execution"
+      implementation: "Whitelist allowed commands and args"
 
-    - name: Content Security Policy
-      description: >
-        Implement CSP headers and other browser-level protections to
-        mitigate XSS from AI-generated content.
-
-    - name: Allowlisting output formats
-      description: >
-        Restrict model outputs to expected formats. If the model should
-        return JSON, validate the schema. If text, strip HTML/scripts.
-
-    - name: Multimodal input validation
-      description: >
-        For vision models, validate image inputs — check for embedded
-        text, steganographic content, adversarial perturbations, and
-        unexpected metadata.
-
-LLM06_sensitive_disclosure:
-  name: "Sensitive Information Disclosure Defenses"
-  strategies:
-    - name: Output filtering for PII
-      description: >
-        Scan model outputs for PII patterns (SSN, email, phone, addresses)
-        and redact before returning to users.
-
-    - name: Differential privacy in training
-      description: >
-        Apply differential privacy techniques during training/fine-tuning
-        to prevent memorization of individual training examples.
-
-    - name: Access control on context
-      description: >
-        Implement per-user context isolation. Ensure users cannot access
-        other users' conversation history, RAG results, or cached data.
-
-    - name: Prompt output boundary enforcement
-      description: >
-        Configure models to refuse requests for system prompt content,
-        training data, or internal configuration details.
+LLM06_excessive_agency:
+  name: "Excessive Agency"
+  summary: "Limit LLM permissions and require human approval"
+  controls:
+    - id: "EA-C1"
+      name: "Least Privilege"
+      description: "Grant minimum necessary permissions"
+      implementation: "Scope tool access per task"
+    - id: "EA-C2"
+      name: "Human-in-the-Loop"
+      description: "Require approval for sensitive actions"
+      implementation: "Confirmation prompts for destructive ops"
+    - id: "EA-C3"
+      name: "Action Logging"
+      description: "Audit trail for all LLM actions"
+      implementation: "Log tool calls with user context"
 
 LLM07_system_prompt_leakage:
-  name: "System Prompt Leakage Defenses"
-  strategies:
-    - name: System prompt hardening
-      description: >
-        Include explicit instructions in the system prompt that prohibit
-        disclosure of the prompt itself. Layer multiple refusal instructions.
+  name: "System Prompt Leakage"
+  summary: "Protect system prompt confidentiality"
+  controls:
+    - id: "SP-C1"
+      name: "Prompt Protection"
+      description: "Instruct model to never reveal instructions"
+      implementation: "Add explicit protection instructions"
+    - id: "SP-C2"
+      name: "Output Filtering"
+      description: "Detect and block system prompt in output"
+      implementation: "Compare output similarity to system prompt"
+    - id: "SP-C3"
+      name: "Minimal Prompts"
+      description: "Don't put secrets in system prompts"
+      implementation: "Move sensitive logic server-side"
 
-    - name: Output monitoring for prompt content
-      description: >
-        Monitor model outputs for strings that match system prompt content.
-        Flag and block responses that contain prompt fragments.
-
-    - name: Minimize sensitive content in prompts
-      description: >
-        Avoid placing API keys, internal URLs, business logic details,
-        or other sensitive data in system prompts. Use server-side
-        orchestration instead.
-
-    - name: Behavioral testing
-      description: >
-        Regularly test systems with known extraction techniques to verify
-        that system prompts remain protected.
-
-LLM08_excessive_agency:
-  name: "Excessive Agency Defenses"
-  strategies:
-    - name: Least privilege tool permissions
-      description: >
-        Grant AI agents the minimum permissions required. Scope API keys,
-        database access, and file system permissions narrowly.
-
-    - name: Human-in-the-loop for sensitive actions
-      description: >
-        Require explicit human approval for destructive, irreversible,
-        or high-impact actions (deleting data, sending emails, financial
-        transactions).
-
-    - name: Tool call validation
-      description: >
-        Validate all tool/function call parameters server-side. Do not
-        trust the model's parameter construction — treat it as untrusted
-        user input.
-
-    - name: Action auditing and rate limiting
-      description: >
-        Log all tool invocations with full parameters. Set rate limits
-        per tool, per user, and per session. Alert on anomalous patterns.
-
-    - name: Scope boundaries
-      description: >
-        Define explicit scope boundaries for agent actions. Prevent
-        cross-tenant access, unauthorized file system traversal, and
-        network requests to internal services.
+LLM08_vector_embedding:
+  name: "Vector and Embedding Weaknesses"
+  summary: "Secure RAG pipelines and embedding stores"
+  controls:
+    - id: "VE-C1"
+      name: "Access Control"
+      description: "Enforce permissions on retrieved documents"
+      implementation: "Filter results by user ACL"
+    - id: "VE-C2"
+      name: "Content Validation"
+      description: "Scan indexed content for injections"
+      implementation: "Detect prompt injection in documents"
 
 LLM09_misinformation:
-  name: "Misinformation / Jailbreak Defenses"
-  strategies:
-    - name: Safety alignment and RLHF
-      description: >
-        Maintain robust safety training through RLHF, constitutional AI,
-        or equivalent alignment techniques. Regularly update with new
-        attack patterns.
-
-    - name: Input classification
-      description: >
-        Use a separate classifier to detect jailbreak attempts before
-        they reach the main model. Flag roleplay requests, persona
-        shifts, and encoding tricks.
-
-    - name: Output safety filtering
-      description: >
-        Apply post-generation safety filters to catch harmful content
-        that bypasses the model's built-in alignment.
-
-    - name: Multi-model verification
-      description: >
-        For high-stakes outputs, verify factual claims using a second
-        model or retrieval system before presenting to users.
+  name: "Misinformation"
+  summary: "Detect and prevent generation of false or misleading information"
+  controls:
+    - id: "MIS-C1"
+      name: "Citation Verification"
+      description: "Validate that citations and references in model output are real"
+      implementation: "Cross-reference cited sources against known databases, flag fabricated URLs or DOIs"
+    - id: "MIS-C2"
+      name: "Factual Grounding"
+      description: "Require source-backed evidence for factual claims in high-stakes domains"
+      implementation: "RAG-backed citation requirement for medical, legal, financial outputs"
+    - id: "MIS-C3"
+      name: "Confidence Calibration"
+      description: "Monitor model confidence vs. factual accuracy over time"
+      implementation: "Track hallucination rate per output type, flag confident-but-wrong patterns"
+    - id: "MIS-C4"
+      name: "Completion Verification"
+      description: "Verify claims of task completion or state changes against actual system state"
+      implementation: "Cross-check 'task completed' assertions with actual tool call results or system state"
+  references:
+    - "https://genai.owasp.org/resource/owasp-top-10-for-llm-applications-2025/"
+  notes: >
+    Changed from Overreliance (2023) to Misinformation (2025).
+    Focus shifted to model-generated false information.
+    Scanner-testable via prompts that elicit factual claims.
 
 LLM10_unbounded_consumption:
-  name: "Unbounded Consumption Defenses"
-  strategies:
-    - name: Token and cost limits
-      description: >
-        Set per-request, per-user, and per-session token limits. Implement
-        cost budgets that halt processing when exceeded.
-
-    - name: Request rate limiting
-      description: >
-        Limit API requests per user per time window. Implement exponential
-        backoff for repeated requests.
-
-    - name: Input length validation
-      description: >
-        Reject inputs that exceed reasonable length thresholds. Validate
-        that input tokens are proportional to the expected use case.
-
-    - name: Timeout enforcement
-      description: >
-        Set strict timeouts on model inference requests. Kill long-running
-        requests that may indicate resource abuse.
+  name: "Unbounded Consumption"
+  summary: "Implement rate limiting and resource caps"
+  controls:
+    - id: "UC-C1"
+      name: "Rate Limiting"
+      description: "Limit requests per user/time"
+      implementation: "Token bucket rate limiter"
+    - id: "UC-C2"
+      name: "Token Limits"
+      description: "Cap input/output token counts"
+      implementation: "Reject oversized requests"

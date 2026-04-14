@@ -72,3 +72,55 @@ strategies:
       - stage: 2
         signal: "Downstream system receives model output without context-appropriate encoding"
         monitor_at: "Output-to-downstream interface"
+
+  - chain_id: "CHAIN-007"
+    chain_name: "Retrieval Poisoning to Context Poisoning to Tool Misuse"
+    detection_points:
+      - stage: 1
+        signal: "Retrieved content contains instruction-like patterns or anomalous directive density"
+        monitor_at: "Retrieval pipeline, after vector search, before context insertion"
+      - stage: 2
+        signal: "Agent context contains directives not originating from system prompt or user input"
+        monitor_at: "Context assembly layer"
+      - stage: 3
+        signal: "Tool invocations with parameters or scope inconsistent with user request"
+        monitor_at: "Agent-tool interface"
+
+  - chain_id: "CHAIN-008"
+    chain_name: "Tool Schema Poisoning to MCP Scope Escalation to Privileged Action"
+    detection_points:
+      - stage: 1
+        signal: "Tool definitions changed since last verified state, or new tools appear that were not in the pinned manifest"
+        monitor_at: "Tool registry, on discovery or refresh"
+      - stage: 2
+        signal: "Agent invokes tools or capabilities not present in its initialized scope"
+        monitor_at: "Agent capability tracker"
+      - stage: 3
+        signal: "Privileged action executed through newly available tool"
+        monitor_at: "Action authorization layer"
+
+  - chain_id: "CHAIN-009"
+    chain_name: "Memory Poisoning to Stale Trust Replay to Data Exfiltration"
+    detection_points:
+      - stage: 1
+        signal: "Memory write contains authorization claims or privilege assertions from user-role input"
+        monitor_at: "Memory write layer"
+      - stage: 2
+        signal: "Authorization derived from stored context rather than fresh validation"
+        monitor_at: "Authorization layer, on each privileged action"
+      - stage: 3
+        signal: "Data access or exfiltration using authorization not verified in current session"
+        monitor_at: "Data access layer"
+
+  - chain_id: "CHAIN-010"
+    chain_name: "False Security State to Human Approval to Privileged Action"
+    detection_points:
+      - stage: 1
+        signal: "Agent generates definitive security or compliance assessment without tool-backed verification"
+        monitor_at: "Output validation layer"
+      - stage: 2
+        signal: "Human approval granted based solely on agent-generated assessment"
+        monitor_at: "Human-in-the-loop approval interface"
+      - stage: 3
+        signal: "Privileged action executed immediately after agent-generated assessment"
+        monitor_at: "Action authorization layer, with temporal context"
