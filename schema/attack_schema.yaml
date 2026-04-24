@@ -46,6 +46,9 @@ attack:
         - unbounded_consumption
         - misinformation
         - memory_context_poisoning
+        - unexpected_code_execution
+        - inter_agent_communication
+        - human_trust_exploitation
       description: >
         Attack category. Must match one of the defined categories.
 
@@ -121,3 +124,6 @@ attack:
 #   UC   = Unbounded Consumption
 #   MIS  = Misinformation
 #   CTX  = Memory/Context Poisoning
+#   UCE  = Unexpected Code Execution
+#   IAC  = Inter-Agent Communication
+#   HTE  = Human Trust Exploitation

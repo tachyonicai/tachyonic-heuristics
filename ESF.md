@@ -16,7 +16,7 @@ This repository implements the first three phases. The ESF specification, maturi
 
 | ESF Phase | This Repo | What It Does |
 |---|---|---|
-| **Phase 1: Name** (Taxonomy) | `taxonomy/` | Classifies 144 AI/LLM attack vectors across 13 categories with stable IDs, severity ratings, and framework mappings |
+| **Phase 1: Name** (Taxonomy) | `taxonomy/` | Classifies 168 AI/LLM attack vectors across 16 categories with stable IDs, severity ratings, and framework mappings |
 | **Phase 2: Relate** (Ontology) | `taxonomy/owasp_mapping.yaml`, `taxonomy/atlas_mapping.yaml` | Maps relationships between attacks and industry frameworks. Attack chain analysis and trust boundary modeling are growth areas (see below) |
 | **Phase 3: Guess** (Heuristics) | `remediation/` | Provides defensive heuristics — detection strategies and response guidance per OWASP category, with code examples |
 

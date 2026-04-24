@@ -237,7 +237,7 @@ chains:
         attack_ids: ["MIS-002"]
         relationship: "enables"
         objective: "Human approves action based on false assessment or false completion claim"
-        notes: "MIS-002 (false completion) covers the approval manipulation vector. Dedicated HTE-series planned for Wave 2."
+        notes: "MIS-002 (false completion) covers the approval manipulation vector. See also CHAIN-013 which uses dedicated HTE attacks."
       - step: 3
         attack_category: "excessive_agency"
         attack_ids: ["EA-007"]
@@ -246,15 +246,111 @@ chains:
     trust_boundary_crossed: "Agent output → Human judgment → Authorization"
     root_cause: "Human reviewers treat agent-generated assessments as authoritative without independent verification"
 
+  - id: CHAIN-011
+    name: "Goal Hijack to Approval Bypass to Unexpected Execution"
+    description: >
+      Attacker hijacks the agent's goal, then exploits the reframed
+      objective to bypass approval gates and achieve code execution.
+    stages:
+      - step: 1
+        attack_category: "prompt_injection"
+        attack_ids: ["PI-001", "MT-009"]
+        relationship: "enables"
+        objective: "Redirect agent goal toward attacker objective"
+      - step: 2
+        attack_category: "excessive_agency"
+        attack_ids: ["EA-017"]
+        relationship: "enables"
+        objective: "Bypass approval by reframing the action as benign"
+      - step: 3
+        attack_category: "unexpected_code_execution"
+        attack_ids: ["UCE-002", "UCE-003"]
+        relationship: "enables"
+        objective: "Execute attacker code through the reframed operation"
+    trust_boundary_crossed: "User intent → Agent goal → Approval gate → Execution"
+    root_cause: "Approval gates rely on agent-generated descriptions, not actual operation parameters"
+
+  - id: CHAIN-012
+    name: "Inter-Agent Spoofing to Delegated Task Hijack to Credential Misuse"
+    description: >
+      Attacker spoofs a trusted agent identity, hijacks a delegated task
+      to include credential harvesting, then uses harvested credentials
+      for unauthorized access.
+    stages:
+      - step: 1
+        attack_category: "inter_agent_communication"
+        attack_ids: ["IAC-001"]
+        relationship: "enables"
+        objective: "Impersonate a trusted agent in the multi-agent system"
+      - step: 2
+        attack_category: "inter_agent_communication"
+        attack_ids: ["IAC-006"]
+        relationship: "enables"
+        objective: "Hijack delegated task to include credential extraction"
+      - step: 3
+        attack_category: "sensitive_disclosure"
+        attack_ids: ["SID-005"]
+        relationship: "enables"
+        objective: "Use harvested credentials for unauthorized access"
+    trust_boundary_crossed: "Agent identity → Delegation protocol → Credential store"
+    root_cause: "Inter-agent messages lack identity verification and integrity checks"
+
+  - id: CHAIN-013
+    name: "Human Trust Exploitation to Dangerous Approval to Destructive Action"
+    description: >
+      Agent generates a deceptive completion report or fake urgency
+      that manipulates the human reviewer into approving a destructive
+      action they would otherwise reject.
+    stages:
+      - step: 1
+        attack_category: "human_trust_exploitation"
+        attack_ids: ["HTE-001", "HTE-005"]
+        relationship: "enables"
+        objective: "Generate misleading approval prompt or urgency signal"
+      - step: 2
+        attack_category: "excessive_agency"
+        attack_ids: ["EA-018"]
+        relationship: "enables"
+        objective: "Suppress or bypass confirmation gate"
+      - step: 3
+        attack_category: "excessive_agency"
+        attack_ids: ["EA-007"]
+        relationship: "enables"
+        objective: "Execute destructive action with obtained approval"
+    trust_boundary_crossed: "Agent output → Human judgment → Authorization → Destructive action"
+    root_cause: "Human reviewer trusts agent-generated urgency and descriptions without verification"
+
+  - id: CHAIN-014
+    name: "Poisoned Skill to Configuration Tampering to Host Execution"
+    description: >
+      Attacker publishes a poisoned skill that modifies agent configuration
+      to weaken sandbox restrictions, then exploits the weakened state
+      for host-level code execution.
+    stages:
+      - step: 1
+        attack_category: "supply_chain"
+        attack_ids: ["SC-009"]
+        relationship: "enables"
+        objective: "Install poisoned skill package with hidden capabilities"
+      - step: 2
+        attack_category: "unexpected_code_execution"
+        attack_ids: ["UCE-004"]
+        relationship: "enables"
+        objective: "Modify agent configuration to weaken sandbox"
+      - step: 3
+        attack_category: "unexpected_code_execution"
+        attack_ids: ["UCE-005"]
+        relationship: "enables"
+        objective: "Achieve host-level execution through weakened sandbox"
+    trust_boundary_crossed: "Skill registry → Agent config → Sandbox → Host"
+    root_cause: "Skills can modify agent configuration, and sandbox enforcement is policy-based"
+
 # Summary Statistics
 summary:
-  total_chains: 10
-  categories_involved: 12   # of 17 total categories
+  total_chains: 14
+  categories_involved: 15   # of 17 total categories
   categories_not_yet_chained:
     - "unbounded_consumption"        # UC
-    - "inter_agent_communication"    # IAC — Wave 2
-    - "unexpected_code_execution"    # UCE — Wave 2
-    - "human_trust_exploitation"     # HTE — Wave 2
     - "data_model_poisoning"         # DMP — mapping only
   common_root_causes:
     - "Instruction/data channel conflation"
@@ -265,4 +361,7 @@ summary:
     - "Retrieved content treated as trusted without provenance"
     - "Tool definitions accepted without integrity verification"
     - "Authorization cached without expiration or re-validation"
-    - "Agent-generated assessments treated as authoritative by human reviewers (approval without verification)"
+    - "Agent-generated assessments treated as authoritative by human reviewers"
+    - "Approval gates rely on agent descriptions, not actual operation parameters"
+    - "Inter-agent messages lack identity verification and integrity checks"
+    - "Skills can modify agent configuration and weaken sandbox enforcement"
