@@ -1,9 +1,9 @@
-# tachyonic-heuristics
+# Tachyonic Taxonomy
 
 **An open taxonomy of 168 AI/LLM attack vectors, mapped to the OWASP LLM Top 10 and MITRE ATLAS.**
 
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-[![ESF Phases 1-3](https://img.shields.io/badge/ESF-Phases_1--3-green.svg)](https://github.com/tachyonicai/tachyonic-esf)
+[![ESF Phases 1-3](https://img.shields.io/badge/ESF-Phases_1--3-green.svg)](https://github.com/tachyonic-sh/esf)
 
 ---
 
@@ -13,7 +13,7 @@ A structured, machine-readable catalog of every documented technique for attacki
 
 This is the **what** — what attacks exist and how to defend against them. It does not include payloads, detection logic, or model-specific data.
 
-This repository implements **Phases 1-3** of the [Evolutionary Security Framework (ESF)](https://github.com/tachyonicai/tachyonic-esf) — the open maturity model for progressively hardening AI security systems. See [ESF.md](ESF.md) for details.
+This repository implements **Phases 1-3** of the [Evolutionary Security Framework (ESF)](https://github.com/tachyonic-sh/esf) — the open maturity model for progressively hardening AI security systems. See [ESF.md](ESF.md) for details.
 
 ## Why?
 
@@ -52,7 +52,7 @@ This taxonomy gives you:
 ## Repository Structure
 
 ```
-tachyonic-heuristics/
+taxonomy/                            ← repo root (tachyonic-sh/taxonomy)
 ├── taxonomy/                        ← ESF Phase 1: Name
 │   ├── attack_catalog.yaml          # All 168 attacks (IDs, names, descriptions, severity)
 │   ├── owasp_mapping.yaml           # Attack → OWASP LLM Top 10 mapping
@@ -109,11 +109,11 @@ LLM01_prompt_injection:
 
 ### Assess your maturity
 
-Use the [ESF Quick Start](https://github.com/tachyonicai/tachyonic-esf/blob/main/guides/quick-start.md) to score your system against the ten-phase maturity model. This taxonomy provides the foundation for Phases 1-3.
+Use the [ESF Quick Start](https://github.com/tachyonic-sh/esf/blob/main/guides/quick-start.md) to score your system against the ten-phase maturity model. This taxonomy provides the foundation for Phases 1-3.
 
 ## Evolutionary Security Framework (ESF)
 
-This repository is the **Phases 1-3 reference implementation** of the [ESF](https://github.com/tachyonicai/tachyonic-esf).
+This repository is the **Phases 1-3 reference implementation** of the [ESF](https://github.com/tachyonic-sh/esf).
 
 The ESF defines how security knowledge matures through ten phases — from naming threats (Phase 1, this repo) to mathematically proving defenses (Phase 9). OWASP tells you *what* the risks are. The ESF tells you *how to progressively harden* against them.
 
@@ -158,10 +158,10 @@ Apache 2.0 — see [LICENSE](LICENSE).
 ## Citation
 
 ```
-@misc{tachyonic-heuristics,
-  title={Tachyonic Heuristics: A Taxonomy of AI/LLM Attack Vectors},
+@misc{tachyonic-taxonomy,
+  title={Tachyonic Taxonomy: AI/LLM Attack Vectors},
   author={Tachyonic},
   year={2026},
-  url={https://github.com/tachyonicai/tachyonic-heuristics}
+  url={https://github.com/tachyonic-sh/taxonomy}
 }
 ```

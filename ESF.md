@@ -1,6 +1,6 @@
 # How This Repository Implements the Evolutionary Security Framework
 
-This repository is the **Phases 1-3 reference implementation** of the [Evolutionary Security Framework (ESF)](https://github.com/tachyonicai/tachyonic-esf) — an open maturity model for progressively hardening agentic AI security systems.
+This repository is the **Phases 1-3 reference implementation** of the [Evolutionary Security Framework (ESF)](https://github.com/tachyonic-sh/esf) — an open maturity model for progressively hardening agentic AI security systems.
 
 ## What is the ESF?
 
@@ -10,7 +10,7 @@ The ESF defines ten phases that describe how security knowledge matures — from
 Name → Relate → Guess → Measure → Model → Explain → Formalize → Constrain → Prove → Evolve
 ```
 
-This repository implements the first three phases. The ESF specification, maturity rubric, and full framework live in [tachyonic-esf](https://github.com/tachyonicai/tachyonic-esf).
+This repository implements the first three phases. The ESF specification, maturity rubric, and full framework live in [tachyonic-sh/esf](https://github.com/tachyonic-sh/esf).
 
 ## Phase Mapping
 
@@ -40,7 +40,7 @@ As the ESF matures, this repository will expand:
 
 ## Learn More
 
-- [ESF Living Specification](https://github.com/tachyonicai/tachyonic-esf/blob/main/spec/ESF-v0.1.0.md) — the full framework
-- [Quick Start Assessment](https://github.com/tachyonicai/tachyonic-esf/blob/main/guides/quick-start.md) — assess your system in 30 minutes
-- [OWASP LLM Top 10 ↔ ESF Mapping](https://github.com/tachyonicai/tachyonic-esf/blob/main/mappings/owasp-llm-top10.yaml)
-- [OWASP Agentic Top 10 ↔ ESF Mapping](https://github.com/tachyonicai/tachyonic-esf/blob/main/mappings/owasp-agentic-top10.yaml)
+- [ESF Living Specification](https://github.com/tachyonic-sh/esf/blob/main/spec/ESF-v0.1.0.md) — the full framework
+- [Quick Start Assessment](https://github.com/tachyonic-sh/esf/blob/main/guides/quick-start.md) — assess your system in 30 minutes
+- [OWASP LLM Top 10 ↔ ESF Mapping](https://github.com/tachyonic-sh/esf/blob/main/mappings/owasp-llm-top10.yaml)
+- [OWASP Agentic Top 10 ↔ ESF Mapping](https://github.com/tachyonic-sh/esf/blob/main/mappings/owasp-agentic-top10.yaml)

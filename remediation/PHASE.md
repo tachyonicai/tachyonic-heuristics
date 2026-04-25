@@ -2,7 +2,7 @@
 
 > **Core Question:** *What rules of thumb catch problems fast?*
 
-This directory implements Phase 3 of the [Evolutionary Security Framework](https://github.com/tachyonicai/tachyonic-esf).
+This directory implements Phase 3 of the [Evolutionary Security Framework](https://github.com/tachyonic-sh/esf).
 
 ## Contents
 

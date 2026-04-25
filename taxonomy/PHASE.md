@@ -2,7 +2,7 @@
 
 > **Core Question:** *What exists in this domain?*
 
-This directory implements Phase 1 of the [Evolutionary Security Framework](https://github.com/tachyonicai/tachyonic-esf).
+This directory implements Phase 1 of the [Evolutionary Security Framework](https://github.com/tachyonic-sh/esf).
 
 ## Contents
 

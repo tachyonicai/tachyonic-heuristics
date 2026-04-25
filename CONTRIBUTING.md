@@ -1,4 +1,4 @@
-# Contributing to tachyonic-heuristics
+# Contributing to Tachyonic Taxonomy
 
 We welcome contributions that expand and improve this taxonomy.
 

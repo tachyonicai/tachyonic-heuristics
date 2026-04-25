@@ -2,7 +2,7 @@
 
 > **Core Question:** *How do named things connect to each other?*
 
-This directory implements Phase 2 of the [Evolutionary Security Framework](https://github.com/tachyonicai/tachyonic-esf).
+This directory implements Phase 2 of the [Evolutionary Security Framework](https://github.com/tachyonic-sh/esf).
 
 ## Contents
 
