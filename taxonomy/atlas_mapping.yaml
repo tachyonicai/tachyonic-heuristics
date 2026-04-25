@@ -1,159 +1,304 @@
 # tachyonic-heuristics: MITRE ATLAS Mapping
-# Maps attack IDs to MITRE ATLAS techniques
+# Maps public attack IDs to MITRE ATLAS techniques
 # Reference: https://atlas.mitre.org/
 
 ---
 
 AML_T0010:
-  name: "ML Supply Chain Compromise"
+  name: "AI Supply Chain Compromise"
   attacks:
-    - EA-004  # MCP Tool Poisoning
-    - SC-002  # Compromised Embedding Model
-    - SC-003  # Plugin/Extension Vulnerabilities
-    - SC-004  # Model Quantization Vulnerability
-    - SC-005  # Model Serialization Attack
-    - SC-006  # Dependency Confusion Attack
-    - SC-007  # Prompt Template Poisoning
-    - SC-008  # Data Pipeline Injection
-    - VE-008  # Embedding Model Substitution
+    - EA-004
+    - SC-001
+    - SC-002
+    - SC-003
+    - SC-004
+    - SC-005
+    - SC-006
+    - SC-007
+    - SC-008
+    - SC-009
+    - SC-010
+    - SC-011
+    - SC-012
+    - VE-008
 
 AML_T0014:
-  name: "Model Inference API Access"
+  name: "AML.T0014"
   attacks:
-    - SID-003  # Model Architecture Probing
+    - SID-003
 
 AML_T0020:
   name: "Poison Training Data"
   attacks:
-    - SC-001  # Malicious Fine-Tuning Dataset
-    - VE-002  # Knowledge Base Poisoning
+    - SC-001
+    - VE-002
 
 AML_T0024:
-  name: "Exfiltration via ML Inference API"
+  name: "AML.T0024"
   attacks:
-    - SID-001  # Training Data Extraction
-    - SID-002  # Context Window Data Leakage
-    - SID-004  # RAG Content Extraction
-    - SID-005  # API Key and Credential Fishing
-    - SID-006  # Membership Inference Attack
-    - SID-007  # User Data Correlation Attack
-    - SID-008  # Internal System Disclosure
-    - SID-009  # Conversation History Leak
-    - SID-010  # Cross-Tenant Data Leak
-    - VE-004  # Embedding Inversion Attack
+    - SID-001
+    - SID-002
+    - SID-004
+    - SID-005
+    - SID-006
+    - SID-007
+    - SID-008
+    - SID-009
+    - SID-010
+    - VE-004
 
 AML_T0029:
-  name: "Denial of ML Service"
+  name: "Denial of AI Service"
   attacks:
-    - UC-001  # Context Window Exhaustion
-    - UC-002  # Recursive Generation Attack
-    - VE-006  # Vector Index Overflow Attack
+    - VE-006
+    - UC-001
+    - UC-002
 
 AML_T0043:
-  name: "Adversarial ML"
+  name: "Craft Adversarial Data"
   attacks:
-    - JB-017  # GCG Adversarial Suffix Attack
-    - JB-018  # AutoDAN Automated Jailbreak
-    - JB-019  # Token Smuggling Attack
-    - VE-001  # Embedding Space Manipulation
-    - VE-005  # Semantic Similarity Abuse
-    - VE-007  # Chunking Exploitation
-    - VI-003  # Adversarial Image Perturbation
-    - VI-004  # CAMO Cross-Modal Attack
+    - JB-017
+    - JB-018
+    - JB-019
+    - VI-003
+    - VI-004
+    - VE-001
+    - VE-005
+    - VE-007
+
+AML_T0051:
+  name: "LLM Prompt Injection"
+  attacks:
+    - PI-001
+    - PI-002
+    - PI-003
+    - PI-004
+    - PI-005
+    - PI-006
+    - PI-007
+    - PI-008
+    - PI-009
+    - PI-010
+    - PI-011
+    - PI-012
+    - PI-013
+    - PI-014
+    - PI-015
+    - PI-016
+    - PI-017
+    - PI-018
+    - PI-019
+    - PI-020
 
 AML_T0051_000:
-  name: "LLM Prompt Injection - Direct"
+  name: "LLM Prompt Injection: Direct"
   attacks:
-    - EA-001  # Unauthorized Tool Invocation
-    - EA-002  # Tool Parameter Manipulation
-    - EA-003  # Tool Chaining Attack
-    - EA-005  # Filesystem Sandbox Escape
-    - EA-006  # Autonomous Action Escalation
-    - EA-007  # Permission Escalation Attack
-    - EA-008  # Scope Creep Attack
-    - EA-009  # Implicit Action Attack
-    - EA-010  # Confused Deputy Attack
-    - EA-011  # Goal Hijacking Attack
-    - EA-012  # Resource Abuse Attack
-    - IOH-001  # XSS via LLM Output
-    - IOH-002  # SQL Injection via LLM Output
-    - IOH-003  # Command Injection via LLM Output
-    - IOH-004  # SSRF via LLM Output
-    - IOH-005  # Path Traversal via Output
-    - IOH-006  # Template Injection via Output
-    - IOH-007  # Log Injection via Output
-    - IOH-008  # Deserialization via Output
-    - JB-001  # DAN v1 - Original Do Anything Now
-    - JB-002  # DAN v11.0 - Advanced Token System
-    - JB-003  # DAN Jailbroken
-    - JB-004  # STAN - Strive To Avoid Norms
-    - JB-005  # Evil Confidant
-    - JB-006  # Maximum Mode
-    - JB-007  # Developer Mode
-    - JB-008  # RoleBreaker Attack
-    - JB-009  # Crescendo Multi-Turn Escalation
-    - JB-010  # Hypothetical Bypass
-    - JB-011  # Low-Resource Language Bypass
-    - JB-012  # Language Mixing Attack
-    - JB-013  # Translation Chain Attack
-    - JB-014  # Fiction Writing Bypass
-    - JB-015  # Historical/Educational Framing
-    - JB-016  # Opposite Day / Negation Attack
-    - JB-020  # Sudo Mode Attack
-    - JB-021  # Emotional Manipulation Attack
-    - JB-022  # Continuation Attack
-    - MT-001  # Echo Chamber Context Poisoning
-    - MT-002  # Gradual Context Shift
-    - MT-003  # Persona Persistence Attack
-    - MT-005  # Trust Building Attack
-    - MT-006  # Sycophancy Exploitation
-    - MT-007  # Context Injection via History
-    - MT-008  # Exhaustion Attack
-    - PI-001  # Basic Instruction Override
-    - PI-002  # System Message Forgery
-    - PI-003  # Markdown Delimiter Injection
-    - PI-004  # XML Tag Injection
-    - PI-005  # JSON Structure Injection
-    - PI-006  # Code Block Exploitation
-    - PI-007  # Base64 Encoded Payload
-    - PI-008  # ROT13 Obfuscation
-    - PI-009  # Unicode Tag Smuggling
-    - PI-010  # Homoglyph Substitution
-    - PI-011  # Multi-Layer Encoding
-    - PI-015  # Payload Splitting Attack
-    - PI-016  # Context Window Manipulation
-    - PI-017  # Instruction Hierarchy Confusion
-    - PI-018  # Semantic Injection Attack
-    - PI-019  # Output Format Exploitation
-    - PI-020  # Virtualization Attack
-    - SPL-001  # Repeat Everything Above
-    - SPL-002  # Ignore and Print Instructions
-    - SPL-003  # Markdown Code Block Trap
-    - SPL-004  # Completion Attack
-    - SPL-005  # Translation Extraction
-    - SPL-006  # PLeak Optimized Query
-    - SPL-007  # PLeak Multi-Turn Extraction
-    - SPL-008  # Differential Analysis Attack
-    - SPL-009  # Role Confusion Extraction
-    - SPL-010  # Indirect Extraction via Behavior
-    - SPL-011  # Encoding-Based Extraction
-    - SPL-012  # Comparative Extraction
-    - VE-003  # Retrieval Augmentation Bypass
+    - PI-001
+    - PI-002
+    - PI-003
+    - PI-004
+    - PI-005
+    - PI-006
+    - PI-007
+    - PI-008
+    - PI-009
+    - PI-010
+    - PI-011
+    - PI-015
+    - PI-016
+    - PI-017
+    - PI-018
+    - PI-019
+    - PI-020
+    - SPL-001
+    - SPL-002
+    - SPL-003
+    - SPL-004
+    - SPL-005
+    - SPL-006
+    - SPL-007
+    - SPL-008
+    - SPL-009
+    - SPL-010
+    - SPL-011
+    - SPL-012
+    - JB-001
+    - JB-002
+    - JB-003
+    - JB-004
+    - JB-005
+    - JB-006
+    - JB-007
+    - JB-008
+    - JB-009
+    - JB-010
+    - JB-011
+    - JB-012
+    - JB-013
+    - JB-014
+    - JB-015
+    - JB-016
+    - JB-020
+    - JB-021
+    - JB-022
+    - EA-001
+    - EA-002
+    - EA-003
+    - EA-005
+    - EA-006
+    - EA-007
+    - EA-008
+    - EA-009
+    - EA-010
+    - EA-011
+    - EA-012
+    - MT-001
+    - MT-002
+    - MT-003
+    - MT-005
+    - MT-006
+    - MT-007
+    - MT-008
+    - VE-003
+    - IOH-001
+    - IOH-002
+    - IOH-003
+    - IOH-004
+    - IOH-005
+    - IOH-006
+    - IOH-007
+    - IOH-008
 
 AML_T0051_001:
-  name: "LLM Prompt Injection - Indirect"
+  name: "LLM Prompt Injection: Indirect"
   attacks:
-    - MT-004  # Memory Injection Attack (MINJA)
-    - PI-012  # RAG Document Injection
-    - PI-013  # Web Content Poisoning
-    - PI-014  # Email Content Injection
-    - VI-001  # FigStep Typographic Injection
-    - VI-002  # Steganographic Injection
-    - VI-005  # Flowchart Instruction Injection
-    - VI-006  # QR Code Instruction Injection
-    - VI-007  # Screenshot Deception Attack
-    - VI-008  # Overlaid Text Attack
-    - VI-009  # Meme Template Attack
-    - VI-010  # Document Scan Attack
-    - VI-011  # Captcha/Challenge Bypass
-    - VI-012  # Multi-Image Attack
+    - PI-012
+    - PI-013
+    - PI-014
+    - VI-001
+    - VI-002
+    - VI-005
+    - VI-006
+    - VI-007
+    - VI-008
+    - VI-009
+    - VI-010
+    - VI-011
+    - VI-012
+    - MT-004
+
+AML_T0080:
+  name: "AI Agent Context Poisoning"
+  attacks:
+    - MT-001
+    - MT-004
+    - CTX-001
+    - CTX-002
+    - CTX-003
+    - CTX-004
+    - CTX-005
+    - CTX-006
+
+AML_T0080_000:
+  name: "AI Agent Context Poisoning: Memory"
+  attacks:
+    - MT-004
+    - CTX-001
+
+AML_T0080_001:
+  name: "AI Agent Context Poisoning: Thread"
+  attacks:
+    - MT-001
+    - CTX-002
+
+AML_T0081:
+  name: "Modify AI Agent Configuration"
+  attacks:
+    - EA-006
+    - EA-011
+
+AML_T0083:
+  name: "Credentials from AI Agent Configuration"
+  attacks:
+    - SID-005
+
+AML_T0084:
+  name: "Discover AI Agent Configuration"
+  attacks:
+    - SPL-001
+    - SPL-002
+    - SPL-003
+    - SPL-004
+    - SPL-005
+    - SPL-006
+    - SPL-007
+    - SPL-008
+    - SPL-009
+    - SPL-010
+    - SPL-011
+    - SPL-012
+
+AML_T0084_001:
+  name: "Discover AI Agent Configuration: Tool Definitions"
+  attacks:
+    - EA-004
+
+AML_T0084_003:
+  name: "Discover AI Agent Configuration: Call Chains"
+  attacks:
+    - EA-003
+
+AML_T0085_000:
+  name: "Data from AI Services: RAG Databases"
+  attacks:
+    - SID-004
+    - VE-001
+    - VE-002
+    - VE-003
+
+AML_T0085_001:
+  name: "Data from AI Services: AI Agent Tools"
+  attacks:
+    - EA-001
+    - EA-002
+    - EA-003
+    - EA-004
+    - EA-005
+
+AML_T0086:
+  name: "Exfiltration via AI Agent Tool Invocation"
+  attacks:
+    - EA-001
+    - SID-005
+
+AML_T0098:
+  name: "AI Agent Tool Credential Harvesting"
+  attacks:
+    - SID-005
+
+AML_T0099:
+  name: "AI Agent Tool Data Poisoning"
+  attacks:
+    - VE-010
+    - CTX-005
+
+AML_T0104:
+  name: "Publish Poisoned AI Agent Tool"
+  attacks:
+    - EA-004
+    - EA-016
+    - SC-009
+
+AML_T0105:
+  name: "Escape to Host"
+  attacks:
+    - EA-005
+    - UCE-001
+    - UCE-005
+    - UCE-006
+
+AML_T0110:
+  name: "AI Agent Tool Poisoning"
+  attacks:
+    - EA-004
+    - EA-014

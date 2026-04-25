@@ -1,5 +1,6 @@
 # Attack Definition Schema
-# All attacks in attack_catalog.yaml must conform to this schema.
+# Public schema for sanitized attack metadata. No payload, detection, scoring,
+# priority, reproduction, or model-specific fields are included.
 
 ---
 
@@ -15,21 +16,10 @@ attack:
   properties:
     id:
       type: string
-      pattern: "^[A-Z]{2,3}-\\d{3}$"
-      description: >
-        Unique identifier. Format: category prefix (2-3 uppercase letters)
-        followed by a hyphen and 3-digit number.
-      examples:
-        - PI-001
-        - JB-015
-        - IOH-003
-
+      pattern: "^[A-Z]{2,4}-\\d{3}$"
     name:
       type: string
-      maxLength: 80
-      description: >
-        Human-readable technique name. Should be concise and descriptive.
-
+      maxLength: 100
     category:
       type: string
       enum:
@@ -49,17 +39,9 @@ attack:
         - unexpected_code_execution
         - inter_agent_communication
         - human_trust_exploitation
-      description: >
-        Attack category. Must match one of the defined categories.
-
     description:
       type: string
       minLength: 50
-      description: >
-        What the attack does, how it works conceptually, and why it is
-        a risk. Must NOT include actual payloads, exploit content, or
-        detection logic. Educational and defensive in nature only.
-
     severity:
       type: string
       enum:
@@ -67,63 +49,49 @@ attack:
         - high
         - medium
         - low
-      description: >
-        Severity rating based on ease of execution and impact.
-        critical = trivial to execute, high impact, broadly applicable.
-        high = reliable execution, significant impact.
-        medium = requires specific conditions, moderate impact.
-        low = difficult to execute or limited impact.
-
+        - info
     owasp:
       type: string
       pattern: "^LLM(0[1-9]|10)$"
-      description: >
-        OWASP LLM Top 10 (2025) category mapping.
-      examples:
-        - LLM01
-        - LLM09
-
     atlas:
       type: string
-      pattern: "^AML\\.T\\d{4}$"
-      description: >
-        MITRE ATLAS technique ID. Optional — include when a direct
-        mapping exists.
-      examples:
-        - AML.T0051
-        - AML.T0054
-
-    references:
-      type: array
-      items:
-        type: object
-        required:
-          - url
-          - title
-        properties:
-          url:
+      pattern: "^AML\\.T\\d{4}(\\.\\d{3})?$"
+    framework_mappings:
+      type: object
+      properties:
+        owasp_llm:
+          type: array
+          items:
             type: string
-            format: uri
-          title:
+        owasp_agentic:
+          type: array
+          items:
             type: string
-      description: >
-        Source references — academic papers, blog posts, CVEs, or
-        official documentation.
+        owasp_mcp:
+          type: array
+          items:
+            type: string
+        mitre_atlas:
+          type: array
+          items:
+            type: string
+    remediation_summary:
+      type: string
 
 # Category prefix reference:
-#   PI   = Prompt Injection
-#   SPL  = System Prompt Leakage
-#   JB   = Jailbreaks
-#   VI   = Vision/Multimodal
-#   EA   = Excessive Agency
-#   MT   = Multi-Turn Manipulation
-#   SID  = Sensitive Information Disclosure
-#   SC   = Supply Chain
-#   VE   = Vector/Embedding
-#   IOH  = Improper Output Handling
-#   UC   = Unbounded Consumption
-#   MIS  = Misinformation
-#   CTX  = Memory/Context Poisoning
-#   UCE  = Unexpected Code Execution
-#   IAC  = Inter-Agent Communication
-#   HTE  = Human Trust Exploitation
+#   PI   = prompt_injection
+#   SPL  = system_prompt_leakage
+#   JB   = jailbreaks
+#   VI   = vision_multimodal
+#   EA   = excessive_agency
+#   MT   = multi_turn
+#   SID  = sensitive_disclosure
+#   SC   = supply_chain
+#   VE   = vector_embedding
+#   IOH  = improper_output
+#   UC   = unbounded_consumption
+#   MIS  = misinformation
+#   CTX  = memory_context_poisoning
+#   UCE  = unexpected_code_execution
+#   IAC  = inter_agent_communication
+#   HTE  = human_trust_exploitation

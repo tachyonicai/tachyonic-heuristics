@@ -133,3 +133,55 @@ playbooks:
       - trigger: "Stage 3 — privileged action after assessment-based approval"
         actions: ["pause", "log"]
         rationale: "Require re-confirmation with evidence of independent verification"
+
+  - chain_id: "CHAIN-011"
+    chain_name: "Goal Hijack to Approval Bypass to Unexpected Execution"
+    responses:
+      - trigger: "Stage 1 - goal drift from authorized objective"
+        actions: ["pause", "escalate", "log"]
+        rationale: "Goal drift before privileged action requires human re-scoping"
+      - trigger: "Stage 2 - approval text does not match operation parameters"
+        actions: ["block", "pause", "log"]
+        rationale: "Approval must be derived from actual operation parameters, not agent prose"
+      - trigger: "Stage 3 - execution follows reframed approval"
+        actions: ["block", "rollback", "isolate", "log"]
+        rationale: "Unexpected execution after approval bypass is critical; block, undo, and isolate"
+
+  - chain_id: "CHAIN-012"
+    chain_name: "Inter-Agent Spoofing to Delegated Task Hijack to Credential Misuse"
+    responses:
+      - trigger: "Stage 1 - unverifiable inter-agent identity claim"
+        actions: ["block", "log"]
+        rationale: "Inter-agent identity must be cryptographically or orchestrator verified"
+      - trigger: "Stage 2 - delegated task scope changes unexpectedly"
+        actions: ["block", "pause", "log"]
+        rationale: "Delegation scope is immutable unless re-authorized by the orchestrator"
+      - trigger: "Stage 3 - credential access from delegated context"
+        actions: ["block", "isolate", "log"]
+        rationale: "Credential access from delegated tasks requires fresh authorization"
+
+  - chain_id: "CHAIN-013"
+    chain_name: "Human Trust Exploitation to Dangerous Approval to Destructive Action"
+    responses:
+      - trigger: "Stage 1 - misleading approval or urgency language"
+        actions: ["suppress", "pause", "log"]
+        rationale: "Human approval copy must be neutral and derived from system state"
+      - trigger: "Stage 2 - confirmation gate suppressed or replaced"
+        actions: ["block", "pause", "log"]
+        rationale: "Confirmation gates are structural controls and cannot be bypassed by agent output"
+      - trigger: "Stage 3 - destructive action after deceptive approval"
+        actions: ["block", "rollback", "pause", "log"]
+        rationale: "Destructive operations require independently verified approval"
+
+  - chain_id: "CHAIN-014"
+    chain_name: "Poisoned Skill to Configuration Tampering to Host Execution"
+    responses:
+      - trigger: "Stage 1 - untrusted or modified skill package"
+        actions: ["block", "isolate", "log"]
+        rationale: "Untrusted skills are denied until provenance and integrity are verified"
+      - trigger: "Stage 2 - sandbox or execution policy weakened"
+        actions: ["rollback", "pause", "log"]
+        rationale: "Security-relevant configuration changes require review and rollback"
+      - trigger: "Stage 3 - host execution from skill path"
+        actions: ["block", "rollback", "isolate", "log"]
+        rationale: "Host execution from dynamic skills crosses the highest-risk trust boundary"

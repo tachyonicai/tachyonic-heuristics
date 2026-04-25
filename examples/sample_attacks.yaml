@@ -1,8 +1,5 @@
 # Sample Attack Descriptions
-# 3 representative examples to illustrate the taxonomy format.
-# These are public knowledge — no proprietary payloads.
-
----
+# Representative public examples. No operational payloads.
 
 - id: PI-001
   name: Basic Instruction Override
@@ -10,70 +7,37 @@
   severity: high
   owasp: LLM01
   atlas: AML.T0051.000
-  description: >
-    The most fundamental prompt injection attack. Instructs the model to ignore
-    previous instructions and execute new commands. While simple, it remains
-    effective against poorly defended systems and serves as a baseline test.
-  example_concept: >
-    User input contains phrases like "ignore all previous instructions"
-    or "your new instructions are..." that attempt to override the
-    system prompt's directives.
-  why_it_works: >
-    Language models process system prompts and user inputs in the same
-    context window. Without strong instruction hierarchy enforcement,
-    the model may prioritize the most recent or most emphatic instructions,
-    regardless of whether they come from the developer or the user.
-  references:
-    - url: https://arxiv.org/abs/2306.05499
-      title: "Prompt Injection attack against LLM-integrated Applications"
-    - url: https://simonwillison.net/2022/Sep/12/prompt-injection/
-      title: "Prompt injection attacks against GPT-3 (Simon Willison)"
+  description: 'The most fundamental prompt injection attack. Instructs the model
+    to ignore
 
+    previous instructions and execute new commands. While simple, it remains
+
+    effective against poorly defended systems and serves as a baseline test.'
+  example_concept: A non-operational conceptual example is shown in prose only. The
+    public repository intentionally excludes executable payloads.
 - id: JB-001
   name: DAN v1 - Original Do Anything Now
-  category: jailbreak
+  category: jailbreaks
   severity: high
   owasp: LLM01
   atlas: AML.T0051.000
-  description: >
-    The original DAN (Do Anything Now) jailbreak that spawned an entire
-    category of attacks. Attempts to create an alternate persona that
-    operates without restrictions.
-  example_concept: >
-    The attacker asks the model to roleplay as an AI without safety
-    constraints. The prompt typically includes a detailed persona
-    description, a "token" or "penalty" system for compliance, and
-    instructions to prefix DAN responses differently from normal responses.
-  why_it_works: >
-    Models trained on diverse roleplay data can be convinced to adopt
-    personas that override their safety training. The fictional framing
-    creates a perceived distance from actual policy violations, and the
-    gamification (token systems) provides additional compliance pressure.
-  references:
-    - url: https://arxiv.org/abs/2308.03825
-      title: "Do Anything Now: Characterizing and Evaluating In-The-Wild Jailbreak Prompts on Large Language Models"
+  description: 'The original DAN (Do Anything Now) jailbreak that spawned an entire
 
+    category of attacks. Attempts to create an alternate persona that
+
+    operates without restrictions.'
+  example_concept: A non-operational conceptual example is shown in prose only. The
+    public repository intentionally excludes executable payloads.
 - id: VI-001
   name: FigStep Typographic Injection
-  category: vision_injection
-  severity: high
+  category: vision_multimodal
+  severity: critical
   owasp: LLM01
   atlas: AML.T0051.001
-  description: >
-    An attack against vision-language models where adversarial text is
-    embedded directly into images. The model reads the text in the image
-    and may follow instructions contained within it, bypassing text-only
-    input filters.
-  example_concept: >
-    An image contains rendered text with instructions for the model.
-    When the model processes the image, it reads and potentially follows
-    those instructions, even if they conflict with the system prompt or
-    would be blocked as text input.
-  why_it_works: >
-    Vision-language models are trained to understand text within images
-    (OCR capability). Text-based input filters only examine the text
-    input channel, not the visual channel. Instructions in images bypass
-    these filters entirely while still being interpreted by the model.
-  references:
-    - url: https://arxiv.org/abs/2311.05608
-      title: "FigStep: Jailbreaking Large Vision-language Models via Typographic Visual Prompts"
+  description: 'Embeds text instructions within images that vision-language models
+
+    read and potentially follow. The FigStep attack achieves 82.5%
+
+    success rate by placing jailbreak prompts as text in images.'
+  example_concept: A non-operational conceptual example is shown in prose only. The
+    public repository intentionally excludes executable payloads.

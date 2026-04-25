@@ -124,3 +124,55 @@ strategies:
       - stage: 3
         signal: "Privileged action executed immediately after agent-generated assessment"
         monitor_at: "Action authorization layer, with temporal context"
+
+  - chain_id: "CHAIN-011"
+    chain_name: "Goal Hijack to Approval Bypass to Unexpected Execution"
+    detection_points:
+      - stage: 1
+        signal: "Agent goal or task description diverges from the originally authorized objective"
+        monitor_at: "Goal tracking layer, with original task scope"
+      - stage: 2
+        signal: "Approval request describes a benign operation while requested parameters imply a privileged or executable action"
+        monitor_at: "Human approval interface and action authorization layer"
+      - stage: 3
+        signal: "Code execution or connector execution follows a reframed approval event"
+        monitor_at: "Execution sandbox and tool invocation audit log"
+
+  - chain_id: "CHAIN-012"
+    chain_name: "Inter-Agent Spoofing to Delegated Task Hijack to Credential Misuse"
+    detection_points:
+      - stage: 1
+        signal: "Inter-agent message claims identity or authorization without independent verification"
+        monitor_at: "Inter-agent message gateway"
+      - stage: 2
+        signal: "Delegated task scope changes after delegation or includes instructions absent from the original task"
+        monitor_at: "Delegation broker and task scope tracker"
+      - stage: 3
+        signal: "Credential access occurs from a delegated task context without fresh authorization"
+        monitor_at: "Credential broker and data access layer"
+
+  - chain_id: "CHAIN-013"
+    chain_name: "Human Trust Exploitation to Dangerous Approval to Destructive Action"
+    detection_points:
+      - stage: 1
+        signal: "Agent-generated approval text uses urgency, authority claims, or misleading completion language"
+        monitor_at: "Human approval interface"
+      - stage: 2
+        signal: "Confirmation gate is suppressed, skipped, or replaced by agent-generated approval copy"
+        monitor_at: "Approval workflow controller"
+      - stage: 3
+        signal: "Destructive or privileged action executes after approval text that differs from actual operation parameters"
+        monitor_at: "Action authorization and audit layer"
+
+  - chain_id: "CHAIN-014"
+    chain_name: "Poisoned Skill to Configuration Tampering to Host Execution"
+    detection_points:
+      - stage: 1
+        signal: "Installed skill or connector package lacks trusted provenance or modifies declared capabilities"
+        monitor_at: "Skill registry and package verification layer"
+      - stage: 2
+        signal: "Agent configuration changes weaken sandboxing, execution policy, or tool restrictions"
+        monitor_at: "Configuration integrity monitor"
+      - stage: 3
+        signal: "Host-level execution occurs from a recently installed or modified skill path"
+        monitor_at: "Execution sandbox and host boundary monitor"

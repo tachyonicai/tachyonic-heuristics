@@ -111,7 +111,7 @@ chains:
       privilege escalation or goal hijacking.
     stages:
       - step: 1
-        attack_category: "multi_turn_manipulation"
+        attack_category: "multi_turn"
         attack_ids: ["MT-001", "MT-003"]
         relationship: "enables"
         objective: "Build trusted context over multiple benign-appearing turns"
@@ -137,7 +137,7 @@ chains:
         relationship: "enables"
         objective: "Control model output content"
       - step: 2
-        attack_category: "improper_output_handling"
+        attack_category: "improper_output"
         attack_ids: ["IOH-001", "IOH-003", "IOH-005"]
         relationship: "enables"
         objective: "Execute payload in downstream system via unsanitized model output"
@@ -348,10 +348,11 @@ chains:
 # Summary Statistics
 summary:
   total_chains: 14
-  categories_involved: 15   # of 17 total categories
+  categories_involved: 15   # of 16 public attack categories
   categories_not_yet_chained:
     - "unbounded_consumption"        # UC
-    - "data_model_poisoning"         # DMP — mapping only
+  mapping_only_categories:
+    - "data_model_poisoning"         # DMP - mapping/remediation only
   common_root_causes:
     - "Instruction/data channel conflation"
     - "Policy-enforced vs. structurally-enforced capability scope"

@@ -1,0 +1,139 @@
+# Remediation by OWASP MCP Top 10 (beta)
+# Defensive guidance for MCP-specific security risks
+
+version: "1.0.0"
+updated: "2026-04-24"
+
+MCP01_token_mismanagement:
+  name: "Token Mismanagement & Secret Exposure"
+  summary: "Prevent credential leakage through MCP channels"
+  controls:
+    - id: "MCP01-C1"
+      name: "Secret Isolation"
+      description: "Secrets never enter the model context window"
+      implementation: "Inject credentials at the proxy layer, not in prompts or tool descriptions"
+    - id: "MCP01-C2"
+      name: "Token Rotation"
+      description: "Short-lived tokens with automatic rotation"
+      implementation: "OAuth 2.0 + PKCE with token lifetime under 1 hour"
+    - id: "MCP01-C3"
+      name: "Context Scrubbing"
+      description: "Scrub secrets from logs, debug traces, and protocol messages"
+      implementation: "Regex-based secret detection on all MCP message output"
+
+MCP02_scope_creep:
+  name: "Privilege Escalation via Scope Creep"
+  summary: "Prevent incremental permission expansion"
+  controls:
+    - id: "MCP02-C1"
+      name: "Static Scope Definition"
+      description: "Tool permissions defined at initialization, not expandable at runtime"
+      implementation: "Immutable capability set per agent session"
+    - id: "MCP02-C2"
+      name: "Scope Drift Monitoring"
+      description: "Detect gradual permission expansion"
+      implementation: "Compare effective scope against baseline each turn; alert on expansion"
+
+MCP03_tool_poisoning:
+  name: "Tool Poisoning"
+  summary: "Prevent tampering with tool definitions"
+  controls:
+    - id: "MCP03-C1"
+      name: "Schema Pinning"
+      description: "Hash-pin tool schemas and detect changes"
+      implementation: "Store SHA-256 of each tool definition; verify before every invocation"
+    - id: "MCP03-C2"
+      name: "Rug Pull Detection"
+      description: "Detect post-approval tool definition changes"
+      implementation: "Re-verify tool schema hash after connection; alert on mismatch"
+
+MCP04_supply_chain:
+  name: "Software Supply Chain & Dependency Tampering"
+  summary: "Secure the MCP component supply chain"
+  controls:
+    - id: "MCP04-C1"
+      name: "Verified Registries"
+      description: "Only install MCP servers from verified sources"
+      implementation: "Whitelist of approved MCP server registries with signature verification"
+    - id: "MCP04-C2"
+      name: "Dependency Scanning"
+      description: "Scan MCP server dependencies for vulnerabilities"
+      implementation: "Automated dependency audit on installation and update"
+
+MCP05_command_injection:
+  name: "Command Injection & Execution"
+  summary: "Prevent command injection through MCP tool calls"
+  controls:
+    - id: "MCP05-C1"
+      name: "Input Sanitization"
+      description: "Sanitize all tool parameters before execution"
+      implementation: "Parameterized tool calls; no string interpolation into shell commands"
+    - id: "MCP05-C2"
+      name: "Execution Sandboxing"
+      description: "Run tool operations in sandboxed environments"
+      implementation: "Container-based execution for tools that interact with the OS"
+
+MCP06_intent_flow:
+  name: "Intent Flow Subversion"
+  summary: "Prevent context-based intent redirection"
+  controls:
+    - id: "MCP06-C1"
+      name: "Context Provenance"
+      description: "Tag retrieved content with source and trust level"
+      implementation: "All context entries carry source labels; system > user > retrieval > tool output"
+    - id: "MCP06-C2"
+      name: "Instruction/Data Separation"
+      description: "Treat tool output and retrieved content as data, not instructions"
+      implementation: "Never follow directives found in tool output or retrieved documents"
+
+MCP07_insufficient_auth:
+  name: "Insufficient Authentication & Authorization"
+  summary: "Enforce proper auth on all MCP interactions"
+  controls:
+    - id: "MCP07-C1"
+      name: "Per-Request Authentication"
+      description: "Authenticate every MCP request, not just the connection"
+      implementation: "Bearer token or mTLS on every request; no session-only auth"
+    - id: "MCP07-C2"
+      name: "Least Privilege"
+      description: "Each MCP connection gets minimum necessary permissions"
+      implementation: "Scoped tokens per tool; no wildcard access"
+
+MCP08_audit:
+  name: "Lack of Audit and Telemetry"
+  summary: "Implement comprehensive MCP audit logging"
+  controls:
+    - id: "MCP08-C1"
+      name: "Action Logging"
+      description: "Log every tool invocation with parameters and results"
+      implementation: "Structured audit log with timestamp, user, agent, tool, params, result"
+    - id: "MCP08-C2"
+      name: "Anomaly Alerting"
+      description: "Alert on unusual tool usage patterns"
+      implementation: "Baseline normal usage; alert on frequency, timing, or scope anomalies"
+
+MCP09_shadow_servers:
+  name: "Shadow MCP Servers"
+  summary: "Prevent unauthorized MCP server deployments"
+  controls:
+    - id: "MCP09-C1"
+      name: "Server Registry"
+      description: "Maintain an inventory of all approved MCP servers"
+      implementation: "Centralized MCP server registry with approval workflow"
+    - id: "MCP09-C2"
+      name: "Discovery Restriction"
+      description: "Agents only connect to registered MCP servers"
+      implementation: "Whitelist of allowed MCP endpoints; reject unknown servers"
+
+MCP10_context_oversharing:
+  name: "Context Injection & Over-Sharing"
+  summary: "Prevent cross-boundary context leakage"
+  controls:
+    - id: "MCP10-C1"
+      name: "Context Isolation"
+      description: "Isolate context per user, session, and task"
+      implementation: "No context sharing across trust boundaries"
+    - id: "MCP10-C2"
+      name: "Context Minimization"
+      description: "Include only necessary context for each tool call"
+      implementation: "Scope context to current task; strip unrelated history"
